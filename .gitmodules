@@ -1,0 +1,3 @@
+[submodule "bsky-client"]
+	path = bsky-client
+	url = https://github.com/zaki-lknr/bsky-client.git
