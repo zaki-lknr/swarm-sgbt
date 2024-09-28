@@ -31,6 +31,10 @@ div#checkin_list {
 .nav-list {
     margin-left: 30px;
 }
+.configure {
+    width: 30px;
+    height: 30px;
+}
 
 h1#title {
     font-size: medium;
