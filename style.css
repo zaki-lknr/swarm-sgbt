@@ -1,3 +1,25 @@
 body {
     font-family: system-ui;
+    margin: 0px;
+}
+
+div#configure {
+    margin: 10px;
+}
+div#control {
+    margin: 10px;
+}
+div#checkin_list {
+    margin: 10px;
+}
+
+h1#title {
+    color: white;
+    /* color: #e3007b; */
+    background-color: #F39728;
+    font-size: medium;
+    padding-left: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin: 0px;
 }
