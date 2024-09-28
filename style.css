@@ -13,13 +13,25 @@ div#checkin_list {
     margin: 10px;
 }
 
-h1#title {
-    color: white;
+.header {
     /* color: #e3007b; */
+    color: white;
     background-color: #F39728;
+    padding-left: 15px;
+    padding-right: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header-nav {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+}
+.nav-list {
+    margin-left: 30px;
+}
+
+h1#title {
     font-size: medium;
-    padding-left: 10px;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    margin: 0px;
 }
