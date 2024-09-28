@@ -14,7 +14,7 @@ div#checkin_list {
 }
 
 .header {
-    /* color: #e3007b; */
+    /* color: #e71f8f; */
     color: white;
     background-color: #F39728;
     padding-left: 15px;
@@ -38,4 +38,11 @@ div#checkin_list {
 
 h1#title {
     font-size: medium;
+}
+h2#configure {
+    font-size: medium;
+    /* color: white; */
+    /* color: #e71f8f; */
+    /* background-color: #e71f8f; */
+    padding-left: 10px;
 }
