@@ -3,6 +3,7 @@
     "short_name": "Swarm SGBT",
     "description": "Swarm Share-Gad-Bluesky-Tw",
     "start_url": ".",
+    "scope": "https://swarm.jp-z.jp",
     "display": "standalone",
     "theme_color": "#F39728",
     "background_color": "#F39728",
