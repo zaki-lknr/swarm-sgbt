@@ -1,3 +1,9 @@
+/**
+ * get swarm checkin list
+ * @author zaki
+ * @see https://github.com/zaki-lknr/swarm-sgbt
+ */
+
 import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 
 const app_name = "Swarm SGBT";
