@@ -1,3 +1,48 @@
 body {
     font-family: system-ui;
+    margin: 0px;
+}
+
+div#configure {
+    margin: 10px;
+}
+div#control {
+    margin: 10px;
+}
+div#checkin_list {
+    margin: 10px;
+}
+
+.header {
+    /* color: #e71f8f; */
+    color: white;
+    background-color: #F39728;
+    padding-left: 15px;
+    padding-right: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header-nav {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+}
+.nav-list {
+    margin-left: 30px;
+}
+.configure {
+    width: 30px;
+    height: 30px;
+}
+
+h1#title {
+    font-size: medium;
+}
+h2#configure {
+    font-size: medium;
+    /* color: white; */
+    /* color: #e71f8f; */
+    /* background-color: #e71f8f; */
+    padding-left: 10px;
 }

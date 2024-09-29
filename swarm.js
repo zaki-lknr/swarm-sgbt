@@ -1,3 +1,9 @@
+/**
+ * get swarm checkin list
+ * @author zaki
+ * @see https://github.com/zaki-lknr/swarm-sgbt
+ */
+
 import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 
 const app_name = "Swarm SGBT";
@@ -22,7 +28,10 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('btn_reload').addEventListener('click', ()=> {
         reload_data();
     });
-
+    document.getElementById('link_configure').addEventListener('click', ()=> {
+        switch_configure();
+    });
+    view_main();
 });
 
 /**
@@ -502,4 +511,22 @@ const get_detail = async (checkin_id, configure) => {
     localStorage.setItem('rest_response', JSON.stringify(checkin_data));
 
     return result;
+}
+
+const switch_configure = () => {
+    // console.log("configure!: " + document.getElementById("configure").style.display);
+    if (document.getElementById("configure").style.display == 'none') {
+        document.getElementById("configure").style.display = '';
+        document.getElementById("control").style.display = 'none';
+        document.getElementById("checkin_list").style.display = 'none';
+    }
+    else {
+        view_main();
+    }
+}
+
+const view_main = () => {
+    document.getElementById("configure").style.display = 'none';
+    document.getElementById("control").style.display = '';
+    document.getElementById("checkin_list").style.display = '';
 }
