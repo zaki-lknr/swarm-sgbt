@@ -46,3 +46,19 @@ h2#configure {
     /* background-color: #e71f8f; */
     padding-left: 10px;
 }
+
+button {
+    height: 44px;
+    padding-left: 35px;
+    padding-right: 35px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    color: white;
+    background-color: #F39728;
+    border: 1px solid #e71f8f;
+    transition: transform .2s;
+    &:active {
+        transform: scale(.95);
+    }
+}
