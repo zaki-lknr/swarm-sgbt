@@ -36,6 +36,7 @@
                 <label for="oauth_token">OAuth Token</label>
                 <input type="password" id="oauth_token" name="oauth_token" placeholder="Swarm OAuth Token"/>
                 <br/>
+                <div id="help">まず<a href="https://ja.foursquare.com/developers/home">Foursquare Developer Console</a>でProjectを作成しClient IDとSecretを取得し、Redirect URLには <code>https://swarm.jp-z.jp/</code> を入力してください。<br/>次にProject内でGenerate API Keyボタンを押下しAPI Keyを作成してください。<br/>最後にこの画面のOAuthボタンで認証してください。</div>
                 <button id="btn_swm_oauth">OAuth</button>
             </fieldset>
             <fieldset>
@@ -45,6 +46,7 @@
                 <br/>
                 <label for="bsky_pass">Bluesky password</label>
                 <input type="password" id="bsky_pass" name="bsky_pass" placeholder="password"/>
+                <div id="help">アプリパスワードは<a href="https://bsky.app/settings/app-passwords">公式サイトまたはアプリ</a>で作成してください。</div>
             </fieldset>
 
             <br/>
