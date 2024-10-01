@@ -31,6 +31,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('link_configure').addEventListener('click', ()=> {
         switch_configure();
     });
+    document.getElementById('copy_text').addEventListener('click', ()=> {
+        copy_text();
+    });
     view_main();
 });
 
@@ -529,4 +532,10 @@ const view_main = () => {
     document.getElementById("configure").style.display = 'none';
     document.getElementById("control").style.display = '';
     document.getElementById("checkin_list").style.display = '';
+}
+
+const copy_text = () => {
+    const link = document.getElementById('copy_text').textContent;
+    console.log(link);
+    navigator.clipboard.writeText(link);
 }
