@@ -535,7 +535,14 @@ const view_main = () => {
 }
 
 const copy_text = () => {
-    const link = document.getElementById('copy_text').textContent;
+    const element = document.getElementById('copy_text');
+    const link = element.textContent;
     console.log(link);
     navigator.clipboard.writeText(link);
+
+    const range = document.createRange();
+    range.selectNodeContents(element);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
 }
