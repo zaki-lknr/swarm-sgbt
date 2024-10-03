@@ -35,6 +35,10 @@ div#checkin_list {
     width: 30px;
     height: 30px;
 }
+.copy_text {
+    width: 15px;
+    height: 15px;
+}
 
 h1#title {
     font-size: medium;
