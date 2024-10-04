@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
         copy_text();
     });
     view_main();
+    set_error();
 });
 
 /**
@@ -548,4 +549,20 @@ const copy_text = () => {
     const selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(range);
+}
+
+/**
+ * エラーメッセージ表示
+ * @param {string} エラーメッセージ(省略時はクリア)
+ */
+const set_error = (error = null) => {
+    const error_elem = document.getElementById('error');
+    if (error === null) {
+        console.log("invisible error notify");
+        error_elem.style.display = 'none';
+    }
+    else {
+        error_elem.style.display = '';
+        error_elem.textContent = error;
+    }
 }
