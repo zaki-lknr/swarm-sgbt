@@ -433,7 +433,7 @@ const create_share = async (checkin) => {
             // alert()
         }
         catch (e) {
-            alert('ERR: ' + e);
+            set_error(e);
         }
     }
 }
