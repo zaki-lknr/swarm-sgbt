@@ -31,6 +31,12 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('link_configure').addEventListener('click', ()=> {
         switch_configure();
     });
+    document.getElementById('copy_text').addEventListener('click', ()=> {
+        copy_text();
+    });
+    document.getElementsByClassName('copy_text')[0].addEventListener('click', ()=> {
+        copy_text();
+    });
     view_main();
 });
 
@@ -529,4 +535,17 @@ const view_main = () => {
     document.getElementById("configure").style.display = 'none';
     document.getElementById("control").style.display = '';
     document.getElementById("checkin_list").style.display = '';
+}
+
+const copy_text = () => {
+    const element = document.getElementById('copy_text');
+    const link = element.textContent;
+    console.log(link);
+    navigator.clipboard.writeText(link);
+
+    const range = document.createRange();
+    range.selectNodeContents(element);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
 }
