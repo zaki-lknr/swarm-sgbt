@@ -34,6 +34,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('copy_text').addEventListener('click', ()=> {
         copy_text();
     });
+    document.getElementsByClassName('copy_text')[0].addEventListener('click', ()=> {
+        copy_text();
+    });
     view_main();
 });
 
