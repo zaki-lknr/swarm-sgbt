@@ -7,7 +7,7 @@
 import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.1.0';
+const app_version = '0.2.0';
 
 /**
  * htmlロード時のイベントリスナ設定
