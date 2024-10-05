@@ -36,10 +36,22 @@ div#checkin_list {
     position: fixed;
     left: 0;
     bottom: 0;
-    width: 100%;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: #e71f8f;
     padding: 10px 10px 10px 10px;
+}
+#error_message {
     color: white;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.error_icon {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .configure {
@@ -49,6 +61,10 @@ div#checkin_list {
 .copy_text {
     width: 15px;
     height: 15px;
+}
+.error {
+    width: 20px;
+    height: 20px;
 }
 
 h1#title {
