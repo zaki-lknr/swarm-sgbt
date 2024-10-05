@@ -556,13 +556,13 @@ const copy_text = () => {
  * @param {string} エラーメッセージ(省略時はクリア)
  */
 const set_error = (error = null) => {
-    const error_elem = document.getElementById('error');
+    const error_notify = document.getElementById('error_notify');
     if (error === null) {
         console.log("invisible error notify");
-        error_elem.style.display = 'none';
+        error_notify.style.display = 'none';
     }
     else {
-        error_elem.style.display = '';
-        error_elem.textContent = error;
+        error_notify.style.display = '';
+        document.getElementById('error_message').textContent = error;
     }
 }
