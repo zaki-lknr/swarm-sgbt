@@ -7,7 +7,7 @@
 import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.1.0';
+const app_version = '0.2.0';
 
 /**
  * htmlロード時のイベントリスナ設定
@@ -37,7 +37,11 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementsByClassName('copy_text')[0].addEventListener('click', ()=> {
         copy_text();
     });
+    document.getElementsByClassName('error_icon')[0].addEventListener('click', ()=> {
+        set_error();
+    });
     view_main();
+    set_error();
 });
 
 /**
@@ -432,7 +436,7 @@ const create_share = async (checkin) => {
             // alert()
         }
         catch (e) {
-            alert('ERR: ' + e);
+            set_error(e);
         }
     }
 }
@@ -548,4 +552,20 @@ const copy_text = () => {
     const selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(range);
+}
+
+/**
+ * エラーメッセージ表示
+ * @param {string} エラーメッセージ(省略時はクリア)
+ */
+const set_error = (error = null) => {
+    const error_notify = document.getElementById('error_notify');
+    if (error === null) {
+        console.log("invisible error notify");
+        error_notify.style.display = 'none';
+    }
+    else {
+        error_notify.style.display = '';
+        document.getElementById('error_message').textContent = error;
+    }
 }
