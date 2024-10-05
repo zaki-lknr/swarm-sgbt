@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('btn_reload').addEventListener('click', ()=> {
         reload_data();
     });
-    document.getElementById('link_configure').addEventListener('click', ()=> {
+    document.getElementsByClassName('configure')[0].addEventListener('click', ()=> {
         switch_configure();
     });
     document.getElementById('copy_text').addEventListener('click', ()=> {
