@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementsByClassName('copy_text')[0].addEventListener('click', ()=> {
         copy_text();
     });
-    document.getElementById('link_error').addEventListener('click', ()=> {
+    document.getElementsByClassName('error_icon')[0].addEventListener('click', ()=> {
         set_error();
     });
     view_main();
