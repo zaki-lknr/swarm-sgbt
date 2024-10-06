@@ -132,6 +132,10 @@ const reload_data = async() => {
     headers.append('accept', 'application/json');
 
     const res = await fetch(url, { headers: headers });
+    if (!res.ok) {
+        set_error('Failed: Get User Checkins: ' + await res.text());
+        return;
+    }
 
     const body = await res.text();
     // console.log('body: ' + body);
