@@ -539,6 +539,8 @@ const switch_configure = () => {
         document.getElementById("checkin_list").style.display = 'none';
     }
     else {
+        clear_data();
+        load_data();
         view_main();
     }
 }
