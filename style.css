@@ -91,9 +91,9 @@ button {
     background-color: #F39728;
     border: 1px solid #e71f8f;
     transition: transform .2s;
-    &:active {
-        transform: scale(.95);
-    }
+}
+button:active {
+    transform: scale(.95);
 }
 button:disabled {
     filter:brightness(0.8);
