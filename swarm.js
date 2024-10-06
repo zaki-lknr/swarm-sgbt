@@ -132,6 +132,10 @@ const reload_data = async() => {
     headers.append('accept', 'application/json');
 
     const res = await fetch(url, { headers: headers });
+    if (!res.ok) {
+        set_error('Failed: Get User Checkins: ' + await res.text());
+        return;
+    }
 
     const body = await res.text();
     // console.log('body: ' + body);
@@ -174,6 +178,10 @@ const swarm_oauth2 = async (code) => {
     const url = 'https://foursquare.com/oauth2/access_token?client_id=' + client_id + '&client_secret=' + client_secret +'&grant_type=authorization_code&redirect_uri=' + redirect_url + '&code=' + code;
     // console.log("access to: " + url);
     const res = await fetch('https://corsproxy.io/?' + encodeURIComponent(url));
+    if (!res.ok) {
+        set_error('Failed: Foursquare OAuth2: ' + await res.text());
+        return;
+    }
 
     const response = await res.json();
     if (response.access_token.length > 0) {
@@ -486,7 +494,10 @@ const get_detail = async (checkin_id, configure) => {
                 headers.append('accept', 'application/json');
             
                 const res = await fetch(url, { headers: headers });
-            
+                if (!res.ok) {
+                    set_error('Failed: Get Check-in Details: ' + await res.text());
+                    return;
+                }
                 const response = await res.json();
                 // console.log(response.response.checkin.checkinShortUrl);
             
@@ -521,7 +532,9 @@ const get_detail = async (checkin_id, configure) => {
                     }
                     else {
                         // error
-                        console.log(res);
+                        set_error('Failed: Get Place Details: ' + await res.text());
+                        // エラー表示するが続行不可能ではないので表示のみ
+                        checkin.venueInfo = {};
                     }
                 }
                 else {
