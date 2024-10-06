@@ -401,7 +401,7 @@ const create_share_string = (checkin, twitter_id = null) => {
  * チェックインリストの表示クリア
  */
 const clear_data = () => {
-    console.log('clear_data() begin');
+    // console.log('clear_data() begin');
     let display = document.getElementById("checkin_list");
     // display.removeChild(display.firstChild);
     // for(let child of display.children) {  // ループ中にリストが変化するのでNG
@@ -581,7 +581,7 @@ const copy_text = () => {
 const set_error = (error = null) => {
     const error_notify = document.getElementById('error_notify');
     if (error === null) {
-        console.log("invisible error notify");
+        // console.log("invisible error notify");
         error_notify.style.display = 'none';
     }
     else {
