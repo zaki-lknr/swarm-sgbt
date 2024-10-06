@@ -178,6 +178,10 @@ const swarm_oauth2 = async (code) => {
     const url = 'https://foursquare.com/oauth2/access_token?client_id=' + client_id + '&client_secret=' + client_secret +'&grant_type=authorization_code&redirect_uri=' + redirect_url + '&code=' + code;
     // console.log("access to: " + url);
     const res = await fetch('https://corsproxy.io/?' + encodeURIComponent(url));
+    if (!res.ok) {
+        set_error('Failed: Foursquare OAuth2: ' + await res.text());
+        return;
+    }
 
     const response = await res.json();
     if (response.access_token.length > 0) {
