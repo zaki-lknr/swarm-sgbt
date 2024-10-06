@@ -296,6 +296,10 @@ const load_data = () => {
             bsky_chk_label.textContent = '🦋';
             header_part.appendChild(bsky_checkbox);
             header_part.appendChild(bsky_chk_label);
+            if (!configure.bsky.bsky_id || !configure.bsky.bsky_pass) {
+                bsky_checkbox.disabled = true;
+                bsky_chk_label.disabled = true;
+            }
 
             const tw_checkbox = document.createElement("input");
             tw_checkbox.type = 'checkbox';
