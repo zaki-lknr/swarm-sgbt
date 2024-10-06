@@ -95,6 +95,10 @@ button {
         transform: scale(.95);
     }
 }
+button:disabled {
+    filter:brightness(0.8);
+    cursor: not-allowed;
+}
 
 div#help {
     margin-top: 10px;
