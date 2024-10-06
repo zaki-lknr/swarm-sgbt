@@ -7,7 +7,7 @@
 import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.2.0';
+const app_version = '0.3.0';
 
 /**
  * htmlロード時のイベントリスナ設定
@@ -146,14 +146,19 @@ const reload_data = async() => {
  * Swarm OAuth開始
  */
 const swarm_oauth = () => {
-    console.log('swarm_oauth() begin');
+    // console.log('swarm_oauth() begin');
     save_configure();
     const configure = load_configure();
     const client_id = configure?.swarm?.client_id;
+    const client_secret = configure?.swarm?.client_secret;
     const redirect_url = location.href;
-    const url = 'https://foursquare.com/oauth2/authenticate?client_id=' + client_id + '&response_type=code&redirect_uri=' + redirect_url;
-
-    window.location.href = url;
+    if ((client_id.length > 0) && (client_secret > 0)) {
+        const url = 'https://foursquare.com/oauth2/authenticate?client_id=' + client_id + '&response_type=code&redirect_uri=' + redirect_url;
+        window.location.href = url;
+    }
+    else {
+        set_error("Client ID or Client Secret is blank");
+    }
 }
 
 /**
@@ -161,7 +166,7 @@ const swarm_oauth = () => {
  * @param {string} トークン
  */
 const swarm_oauth2 = async (code) => {
-    console.log('swarm_oauth2() begin');
+    // console.log('swarm_oauth2() begin');
     const configure = load_configure();
     const client_id = configure?.swarm?.client_id;
     const client_secret = configure?.swarm?.client_secret;
@@ -187,6 +192,7 @@ const swarm_oauth2 = async (code) => {
  * @returns URL
  */
 const get_image_url = (disp_width, count, photo) => {
+    // console.log('display width: ' + disp_width);
     if (count === 0) {
         // count=0はオリジナルの値を返す
         return photo.prefix + photo.width + 'x' + photo.height + photo.suffix;
@@ -229,8 +235,12 @@ const load_data = () => {
     if (checkins === null) {
         console.log('no data');
         // button文言の更新
-        let button = document.getElementById("btn_reload");
+        const button = document.getElementById("btn_reload");
         button.textContent = 'get checkin data';
+        if (! configure?.swarm?.oauth_token) {
+            button.disabled = true;
+            // fixme 解除は？
+        }
     }
     else {
         const checkin_data = JSON.parse(checkins);
@@ -292,6 +302,10 @@ const load_data = () => {
             bsky_chk_label.textContent = '🦋';
             header_part.appendChild(bsky_checkbox);
             header_part.appendChild(bsky_chk_label);
+            if (!configure.bsky.bsky_id || !configure.bsky.bsky_pass) {
+                bsky_checkbox.disabled = true;
+                bsky_chk_label.disabled = true;
+            }
 
             const tw_checkbox = document.createElement("input");
             tw_checkbox.type = 'checkbox';
@@ -316,6 +330,10 @@ const load_data = () => {
             acc_chk_label.textContent = '@';
             header_part.appendChild(acc_checkbox);
             header_part.appendChild(acc_chk_label);
+            if (!configure.swarm.api_key.length) {
+                acc_checkbox.disabled = true;
+                acc_chk_label.disabled = true;
+            }
 
             let photo_count = checkin.photos.count;
             // console.log("photo count: " + photo_count);
@@ -323,7 +341,7 @@ const load_data = () => {
             if (photo_count > 0) {
                 for (let photos of checkin.photos.items) {
                     let photo_item = document.createElement("img");
-                    let photo_url = get_image_url(display.clientWidth, photo_count, photos);
+                    let photo_url = get_image_url(document.body.clientWidth, photo_count, photos);
                     photo_item.src = photo_url;
                     if (preview_image) {
                         photo_view.appendChild(photo_item);
@@ -383,7 +401,7 @@ const create_share_string = (checkin, twitter_id = null) => {
  * チェックインリストの表示クリア
  */
 const clear_data = () => {
-    console.log('clear_data() begin');
+    // console.log('clear_data() begin');
     let display = document.getElementById("checkin_list");
     // display.removeChild(display.firstChild);
     // for(let child of display.children) {  // ループ中にリストが変化するのでNG
@@ -531,6 +549,8 @@ const switch_configure = () => {
         document.getElementById("checkin_list").style.display = 'none';
     }
     else {
+        clear_data();
+        load_data();
         view_main();
     }
 }
@@ -561,7 +581,7 @@ const copy_text = () => {
 const set_error = (error = null) => {
     const error_notify = document.getElementById('error_notify');
     if (error === null) {
-        console.log("invisible error notify");
+        // console.log("invisible error notify");
         error_notify.style.display = 'none';
     }
     else {
