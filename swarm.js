@@ -7,7 +7,7 @@
 import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.2.0';
+const app_version = '0.3.0';
 
 /**
  * htmlロード時のイベントリスナ設定
@@ -229,8 +229,12 @@ const load_data = () => {
     if (checkins === null) {
         console.log('no data');
         // button文言の更新
-        let button = document.getElementById("btn_reload");
+        const button = document.getElementById("btn_reload");
         button.textContent = 'get checkin data';
+        if (! configure?.swarm?.oauth_token) {
+            button.disabled = true;
+            // fixme 解除は？
+        }
     }
     else {
         const checkin_data = JSON.parse(checkins);
