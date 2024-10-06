@@ -325,6 +325,10 @@ const load_data = () => {
             acc_chk_label.textContent = '@';
             header_part.appendChild(acc_checkbox);
             header_part.appendChild(acc_chk_label);
+            if (!configure.swarm.api_key.length) {
+                acc_checkbox.disabled = true;
+                acc_chk_label.disabled = true;
+            }
 
             let photo_count = checkin.photos.count;
             // console.log("photo count: " + photo_count);
