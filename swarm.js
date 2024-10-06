@@ -494,7 +494,10 @@ const get_detail = async (checkin_id, configure) => {
                 headers.append('accept', 'application/json');
             
                 const res = await fetch(url, { headers: headers });
-            
+                if (!res.ok) {
+                    set_error('Failed: Get Check-in Details: ' + await res.text());
+                    return;
+                }
                 const response = await res.json();
                 // console.log(response.response.checkin.checkinShortUrl);
             
@@ -529,7 +532,9 @@ const get_detail = async (checkin_id, configure) => {
                     }
                     else {
                         // error
-                        console.log(res);
+                        set_error('Failed: Get Place Details: ' + await res.text());
+                        // エラー表示するが続行不可能ではないので表示のみ
+                        checkin.venueInfo = {};
                     }
                 }
                 else {
