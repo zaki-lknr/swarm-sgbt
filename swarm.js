@@ -187,6 +187,7 @@ const swarm_oauth2 = async (code) => {
  * @returns URL
  */
 const get_image_url = (disp_width, count, photo) => {
+    // console.log('display width: ' + disp_width);
     if (count === 0) {
         // count=0はオリジナルの値を返す
         return photo.prefix + photo.width + 'x' + photo.height + photo.suffix;
@@ -331,7 +332,7 @@ const load_data = () => {
             if (photo_count > 0) {
                 for (let photos of checkin.photos.items) {
                     let photo_item = document.createElement("img");
-                    let photo_url = get_image_url(display.clientWidth, photo_count, photos);
+                    let photo_url = get_image_url(document.body.clientWidth, photo_count, photos);
                     photo_item.src = photo_url;
                     if (preview_image) {
                         photo_view.appendChild(photo_item);
