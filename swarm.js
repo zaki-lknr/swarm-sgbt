@@ -146,14 +146,19 @@ const reload_data = async() => {
  * Swarm OAuth開始
  */
 const swarm_oauth = () => {
-    console.log('swarm_oauth() begin');
+    // console.log('swarm_oauth() begin');
     save_configure();
     const configure = load_configure();
     const client_id = configure?.swarm?.client_id;
+    const client_secret = configure?.swarm?.client_secret;
     const redirect_url = location.href;
-    const url = 'https://foursquare.com/oauth2/authenticate?client_id=' + client_id + '&response_type=code&redirect_uri=' + redirect_url;
-
-    window.location.href = url;
+    if ((client_id.length > 0) && (client_secret > 0)) {
+        const url = 'https://foursquare.com/oauth2/authenticate?client_id=' + client_id + '&response_type=code&redirect_uri=' + redirect_url;
+        window.location.href = url;
+    }
+    else {
+        set_error("Client ID or Client Secret is blank");
+    }
 }
 
 /**
@@ -161,7 +166,7 @@ const swarm_oauth = () => {
  * @param {string} トークン
  */
 const swarm_oauth2 = async (code) => {
-    console.log('swarm_oauth2() begin');
+    // console.log('swarm_oauth2() begin');
     const configure = load_configure();
     const client_id = configure?.swarm?.client_id;
     const client_secret = configure?.swarm?.client_secret;
