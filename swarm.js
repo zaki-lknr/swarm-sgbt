@@ -41,7 +41,8 @@ document.addEventListener("DOMContentLoaded", () => {
         set_error();
     });
     view_main();
-    set_error();
+    // set_error();
+    set_progress("test");
 });
 
 /**
@@ -600,5 +601,22 @@ const set_error = (error = null) => {
     else {
         error_notify.style.display = '';
         document.getElementById('error_message').textContent = error;
+        error_notify.style.backgroundColor = '#e71f8f'; // fixme
+        document.getElementsByClassName('error')[0].src = 'images/check-icon.svg';
+    }
+}
+
+const set_progress = (msg = null) => {
+    const error_notify = document.getElementById('error_notify');
+    if (msg === null) {
+        // console.log("invisible error notify");
+        error_notify.style.display = 'none';
+    }
+    else {
+        error_notify.style.display = '';
+        const elem = document.getElementById('error_message');
+        elem.textContent = msg;
+        error_notify.style.backgroundColor = '#F39728'; // fixme
+        document.getElementsByClassName('error')[0].src = 'images/progress-icon.gif';
     }
 }
