@@ -39,10 +39,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     document.getElementsByClassName('error_icon')[0].addEventListener('click', ()=> {
         set_error();
+        //fixme: 処理中時の処理
     });
     view_main();
-    // set_error();
-    set_progress("test");
+    set_error();
 });
 
 /**
@@ -447,6 +447,7 @@ const create_share = async (checkin) => {
     }
 
     if (post_bsky) {
+        set_progress('sending...');
         const bsky = new JpzBskyClient(configure.bsky.bsky_id, configure.bsky.bsky_pass);
         bsky.enableCorsProxyAtOgp(true);
         bsky.enableCorsProxyAtGetImage(false);
@@ -461,6 +462,7 @@ const create_share = async (checkin) => {
             await bsky.post(share_comment);
             // console.log(ret);
             // alert()
+            set_progress();
         }
         catch (e) {
             set_error(e);
@@ -606,6 +608,10 @@ const set_error = (error = null) => {
     }
 }
 
+/**
+ * 進捗メッセージ表示
+ * @param {string} 進捗用メッセージ(省略時はクリア)
+ */
 const set_progress = (msg = null) => {
     const error_notify = document.getElementById('error_notify');
     if (msg === null) {
