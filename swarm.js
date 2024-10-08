@@ -7,7 +7,7 @@
 import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.3.0';
+const app_version = '0.4.0';
 
 /**
  * htmlロード時のイベントリスナ設定
@@ -426,6 +426,7 @@ const clear_data = () => {
  * @param {object} checkinオブジェクト
  */
 const create_share = async (checkin) => {
+    set_progress('get detail...');
     const configure = load_configure();
     // console.log("create_share() begin: " + checkin_id);
     // get configure
@@ -459,15 +460,15 @@ const create_share = async (checkin) => {
             bsky.setImageUrl(photo_url);
         }
         try {
+            set_progress('sending...');
             await bsky.post(share_comment);
-            // console.log(ret);
-            // alert()
-            set_progress();
         }
         catch (e) {
             set_error(e);
+            return;
         }
     }
+    set_progress();
 }
 
 /**
@@ -597,11 +598,12 @@ const copy_text = () => {
 const set_error = (error = null) => {
     const error_notify = document.getElementById('error_notify');
     if (error === null) {
-        // console.log("invisible error notify");
+        // console.log("set_error(end)");
         error_notify.style.display = 'none';
     }
     else {
-        error_notify.style.display = '';
+        // console.log("set_error(start)");
+        error_notify.style.display = 'flex';
         document.getElementById('error_message').textContent = error;
         error_notify.style.backgroundColor = '#e71f8f'; // fixme
         document.getElementsByClassName('error')[0].src = 'images/check-icon.svg';
@@ -615,10 +617,11 @@ const set_error = (error = null) => {
 const set_progress = (msg = null) => {
     const error_notify = document.getElementById('error_notify');
     if (msg === null) {
-        // console.log("invisible error notify");
+        // console.log("set_progress(end)");
         error_notify.style.display = 'none';
     }
     else {
+        // console.log("set_progress(start)");
         error_notify.style.display = '';
         const elem = document.getElementById('error_message');
         elem.textContent = msg;
