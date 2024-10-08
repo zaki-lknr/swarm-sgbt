@@ -25,6 +25,12 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('btn_swm_oauth').addEventListener('click', ()=> {
         swarm_oauth();
     });
+    document.getElementById('client_id').addEventListener('input', (e) => {
+        input_changed(e);
+    })
+    document.getElementById('client_secret').addEventListener('input', (e) => {
+        input_changed(e);
+    })
     document.getElementById('btn_reload').addEventListener('click', ()=> {
         reload_data();
     });
@@ -627,5 +633,21 @@ const set_progress = (msg = null) => {
         elem.textContent = msg;
         error_notify.style.backgroundColor = '#F39728'; // fixme
         document.getElementsByClassName('error')[0].src = 'images/progress-icon.gif';
+    }
+}
+
+const input_changed = (e) => {
+    // console.log('input_changed begin');
+    const id = document.getElementById('client_id').value;
+    const secret = document.getElementById('client_secret').value;
+
+    const btn_oauth = document.getElementById('btn_swm_oauth');
+
+    if (id.length && secret.length) {
+        // 入力済み
+        btn_oauth.disabled = false;
+    }
+    else {
+        btn_oauth.disabled = true;
     }
 }
