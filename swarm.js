@@ -7,7 +7,7 @@
 import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.4.0';
+const app_version = '0.5.0';
 
 /**
  * htmlロード時のイベントリスナ設定
@@ -25,11 +25,11 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('btn_swm_oauth').addEventListener('click', ()=> {
         swarm_oauth();
     });
-    document.getElementById('client_id').addEventListener('input', (e) => {
-        input_changed(e);
+    document.getElementById('client_id').addEventListener('input', () => {
+        input_changed();
     })
-    document.getElementById('client_secret').addEventListener('input', (e) => {
-        input_changed(e);
+    document.getElementById('client_secret').addEventListener('input', () => {
+        input_changed();
     })
     document.getElementById('btn_reload').addEventListener('click', ()=> {
         reload_data();
@@ -49,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     view_main();
     set_error();
+    input_changed();
 });
 
 /**
@@ -636,7 +637,10 @@ const set_progress = (msg = null) => {
     }
 }
 
-const input_changed = (e) => {
+/**
+ * client id/secretテキストフィールド入力ハンドラ
+ */
+const input_changed = () => {
     // console.log('input_changed begin');
     const id = document.getElementById('client_id').value;
     const secret = document.getElementById('client_secret').value;
