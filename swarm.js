@@ -7,7 +7,7 @@
 import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.5.0';
+const app_version = '0.5.2';
 
 /**
  * htmlロード時のイベントリスナ設定
@@ -630,7 +630,7 @@ const set_progress = (msg = null) => {
     }
     else {
         // console.log("set_progress(start)");
-        error_notify.style.display = '';
+        error_notify.style.display = 'flex';
         const elem = document.getElementById('error_message');
         elem.textContent = msg;
         error_notify.style.backgroundColor = '#F39728'; // fixme
