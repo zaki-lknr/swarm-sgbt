@@ -37,7 +37,7 @@ div#checkin_list {
     left: 0;
     bottom: 0;
     right: 0;
-    display: flex;
+    display: none;
     justify-content: space-between;
     align-items: center;
     background-color: #e71f8f;
