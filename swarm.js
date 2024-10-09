@@ -7,7 +7,7 @@
 import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.4.0';
+const app_version = '0.5.0';
 
 /**
  * htmlロード時のイベントリスナ設定
@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // リスナー設定をこの外に記述するとやはり早すぎて無効なのでここ
     document.getElementById('btn_save').addEventListener('click', ()=> {
         save_configure();
+        switch_configure();
     });
     document.getElementById('btn_load').addEventListener('click', ()=> {
         load_configure();
@@ -25,6 +26,12 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('btn_swm_oauth').addEventListener('click', ()=> {
         swarm_oauth();
     });
+    document.getElementById('client_id').addEventListener('input', () => {
+        input_changed();
+    })
+    document.getElementById('client_secret').addEventListener('input', () => {
+        input_changed();
+    })
     document.getElementById('btn_reload').addEventListener('click', ()=> {
         reload_data();
     });
@@ -43,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     view_main();
     set_error();
+    input_changed();
 });
 
 /**
@@ -627,5 +635,24 @@ const set_progress = (msg = null) => {
         elem.textContent = msg;
         error_notify.style.backgroundColor = '#F39728'; // fixme
         document.getElementsByClassName('error')[0].src = 'images/progress-icon.gif';
+    }
+}
+
+/**
+ * client id/secretテキストフィールド入力ハンドラ
+ */
+const input_changed = () => {
+    // console.log('input_changed begin');
+    const id = document.getElementById('client_id').value;
+    const secret = document.getElementById('client_secret').value;
+
+    const btn_oauth = document.getElementById('btn_swm_oauth');
+
+    if (id.length && secret.length) {
+        // 入力済み
+        btn_oauth.disabled = false;
+    }
+    else {
+        btn_oauth.disabled = true;
     }
 }
