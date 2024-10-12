@@ -607,12 +607,12 @@ const copy_text = () => {
  * @param {string} エラーメッセージ(省略時はクリア)
  */
 const set_error = (error = null) => {
-    const error_notify = document.getElementById('error_notify');
     if (error === null) {
         // console.log("set_error(end)");
-        error_notify.style.display = 'none';
+        close_notify();
     }
     else {
+        const error_notify = document.getElementById('error_notify');
         // console.log("set_error(start)");
         error_notify.style.display = 'flex';
         document.getElementById('error_message').textContent = error;
@@ -626,12 +626,12 @@ const set_error = (error = null) => {
  * @param {string} 進捗用メッセージ(省略時はクリア)
  */
 const set_progress = (msg = null) => {
-    const error_notify = document.getElementById('error_notify');
     if (msg === null) {
         // console.log("set_progress(end)");
-        error_notify.style.display = 'none';
+        close_notify();
     }
     else {
+        const error_notify = document.getElementById('error_notify');
         // console.log("set_progress(start)");
         error_notify.style.display = 'flex';
         const elem = document.getElementById('error_message');
@@ -639,6 +639,16 @@ const set_progress = (msg = null) => {
         error_notify.style.backgroundColor = color_o;
         document.getElementsByClassName('error')[0].src = 'images/progress-icon.gif';
     }
+}
+
+
+/**
+ * 通知領域非表示
+ * @param {通知エレメント} error_notify
+ */
+const close_notify = () => {
+    const error_notify = document.getElementById('error_notify');
+    error_notify.style.display = 'none';
 }
 
 /**
