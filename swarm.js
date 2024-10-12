@@ -9,6 +9,9 @@ import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 const app_name = "Swarm SGBT";
 const app_version = '0.5.2';
 
+const color_r = '#e71f8f';
+const color_o = '#F39728';
+
 /**
  * htmlロード時のイベントリスナ設定
  */
@@ -613,7 +616,7 @@ const set_error = (error = null) => {
         // console.log("set_error(start)");
         error_notify.style.display = 'flex';
         document.getElementById('error_message').textContent = error;
-        error_notify.style.backgroundColor = '#e71f8f'; // fixme
+        error_notify.style.backgroundColor = color_r;
         document.getElementsByClassName('error')[0].src = 'images/check-icon.svg';
     }
 }
@@ -633,7 +636,7 @@ const set_progress = (msg = null) => {
         error_notify.style.display = 'flex';
         const elem = document.getElementById('error_message');
         elem.textContent = msg;
-        error_notify.style.backgroundColor = '#F39728'; // fixme
+        error_notify.style.backgroundColor = color_o;
         document.getElementsByClassName('error')[0].src = 'images/progress-icon.gif';
     }
 }
