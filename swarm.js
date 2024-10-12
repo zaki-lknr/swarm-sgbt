@@ -7,7 +7,10 @@
 import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.5.2';
+const app_version = '0.5.4';
+
+const color_r = '#e71f8f';
+const color_o = '#F39728';
 
 /**
  * htmlロード時のイベントリスナ設定
@@ -604,16 +607,17 @@ const copy_text = () => {
  * @param {string} エラーメッセージ(省略時はクリア)
  */
 const set_error = (error = null) => {
-    const error_notify = document.getElementById('error_notify');
     if (error === null) {
         // console.log("set_error(end)");
-        error_notify.style.display = 'none';
+        close_notify();
     }
     else {
+        const error_notify = document.getElementById('error_notify');
         // console.log("set_error(start)");
+        error_notify.disabled = false;
         error_notify.style.display = 'flex';
         document.getElementById('error_message').textContent = error;
-        error_notify.style.backgroundColor = '#e71f8f'; // fixme
+        error_notify.style.backgroundColor = color_r;
         document.getElementsByClassName('error')[0].src = 'images/check-icon.svg';
     }
 }
@@ -623,19 +627,40 @@ const set_error = (error = null) => {
  * @param {string} 進捗用メッセージ(省略時はクリア)
  */
 const set_progress = (msg = null) => {
-    const error_notify = document.getElementById('error_notify');
     if (msg === null) {
         // console.log("set_progress(end)");
-        error_notify.style.display = 'none';
+        close_notify();
     }
     else {
+        const error_notify = document.getElementById('error_notify');
         // console.log("set_progress(start)");
+        error_notify.disabled = true;
         error_notify.style.display = 'flex';
         const elem = document.getElementById('error_message');
         elem.textContent = msg;
-        error_notify.style.backgroundColor = '#F39728'; // fixme
+        error_notify.style.backgroundColor = color_o;
         document.getElementsByClassName('error')[0].src = 'images/progress-icon.gif';
     }
+}
+
+
+/**
+ * 通知領域非表示
+ * @param {通知エレメント} error_notify
+ */
+const close_notify = () => {
+    const error_notify = document.getElementById('error_notify');
+    // console.log("close_notify");
+    // console.log(error_notify.disabled);
+    if (error_notify.disabled) {
+        // progressの場合はクローズしない
+        console.log("progress(not close");
+        return;
+    }
+    else {
+        console.log("else");
+    }
+    error_notify.style.display = 'none';
 }
 
 /**
