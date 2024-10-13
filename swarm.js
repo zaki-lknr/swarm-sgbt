@@ -630,7 +630,7 @@ const set_progress = (msg = null) => {
     const elem = document.getElementById('error_message');
     elem.textContent = msg;
     error_notify.style.backgroundColor = color_sgbt_base;
-    document.getElementsByClassName('error')[0].src = 'images/progress-icon.gif';
+    document.getElementsByClassName('error')[0].src = 'images/progress-icon-sgbt.gif';
 }
 
 
