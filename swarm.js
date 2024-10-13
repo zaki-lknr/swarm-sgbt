@@ -7,7 +7,7 @@
 import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.5.4';
+const app_version = '0.5.5';
 
 const color_r = '#e71f8f';
 const color_o = '#F39728';
@@ -48,11 +48,10 @@ document.addEventListener("DOMContentLoaded", () => {
         copy_text();
     });
     document.getElementsByClassName('error_icon')[0].addEventListener('click', ()=> {
-        set_error();
-        //fixme: 処理中時の処理
+        close_notify();
     });
     view_main();
-    set_error();
+    close_notify();
     input_changed();
 });
 
@@ -479,7 +478,8 @@ const create_share = async (checkin) => {
             return;
         }
     }
-    set_progress();
+    console.log("send done");
+    close_notify();
 }
 
 /**
@@ -607,19 +607,13 @@ const copy_text = () => {
  * @param {string} エラーメッセージ(省略時はクリア)
  */
 const set_error = (error = null) => {
-    if (error === null) {
-        // console.log("set_error(end)");
-        close_notify();
-    }
-    else {
-        const error_notify = document.getElementById('error_notify');
-        // console.log("set_error(start)");
-        error_notify.disabled = false;
-        error_notify.style.display = 'flex';
-        document.getElementById('error_message').textContent = error;
-        error_notify.style.backgroundColor = color_r;
-        document.getElementsByClassName('error')[0].src = 'images/check-icon.svg';
-    }
+    const error_notify = document.getElementById('error_notify');
+    // console.log("set_error(start)");
+    error_notify.disabled = false;
+    error_notify.style.display = 'flex';
+    document.getElementById('error_message').textContent = error;
+    error_notify.style.backgroundColor = color_r;
+    document.getElementsByClassName('error')[0].src = 'images/check-icon.svg';
 }
 
 /**
@@ -627,20 +621,14 @@ const set_error = (error = null) => {
  * @param {string} 進捗用メッセージ(省略時はクリア)
  */
 const set_progress = (msg = null) => {
-    if (msg === null) {
-        // console.log("set_progress(end)");
-        close_notify();
-    }
-    else {
-        const error_notify = document.getElementById('error_notify');
-        // console.log("set_progress(start)");
-        error_notify.disabled = true;
-        error_notify.style.display = 'flex';
-        const elem = document.getElementById('error_message');
-        elem.textContent = msg;
-        error_notify.style.backgroundColor = color_o;
-        document.getElementsByClassName('error')[0].src = 'images/progress-icon.gif';
-    }
+    const error_notify = document.getElementById('error_notify');
+    // console.log("set_progress(start)");
+    error_notify.disabled = true;
+    error_notify.style.display = 'flex';
+    const elem = document.getElementById('error_message');
+    elem.textContent = msg;
+    error_notify.style.backgroundColor = color_o;
+    document.getElementsByClassName('error')[0].src = 'images/progress-icon.gif';
 }
 
 
@@ -658,7 +646,7 @@ const close_notify = () => {
         return;
     }
     else {
-        console.log("else");
+        console.log("close");
     }
     error_notify.style.display = 'none';
 }
