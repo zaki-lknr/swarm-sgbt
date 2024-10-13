@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
         copy_text();
     });
     document.getElementsByClassName('error_icon')[0].addEventListener('click', ()=> {
-        close_notify();
+        close_notify(true);
     });
     view_main();
     close_notify();
@@ -478,7 +478,7 @@ const create_share = async (checkin) => {
             return;
         }
     }
-    console.log("send done");
+    // console.log("send done");
     close_notify();
 }
 
@@ -634,19 +634,19 @@ const set_progress = (msg = null) => {
 
 /**
  * 通知領域非表示
- * @param {通知エレメント} error_notify
+ * @param {boolean} 手動操作フラグ
  */
-const close_notify = () => {
+const close_notify = (manual = false) => {
     const error_notify = document.getElementById('error_notify');
     // console.log("close_notify");
     // console.log(error_notify.disabled);
-    if (error_notify.disabled) {
-        // progressの場合はクローズしない
+    if (error_notify.disabled && manual) {
+        // progressの場合の手動操作はクローズしない
         console.log("progress(not close");
         return;
     }
     else {
-        console.log("close");
+        // console.log("close");
     }
     error_notify.style.display = 'none';
 }
