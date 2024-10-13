@@ -13,6 +13,12 @@ div#checkin_list {
     margin: 10px;
 }
 
+hr {
+    background-color: #DD253F;
+    border: none;
+    height: 1px;
+}
+
 .header {
     color: #FFE3AD;
     background-color: #454090;
