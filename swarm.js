@@ -7,7 +7,7 @@
 import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.5.5';
+const app_version = '0.5.6';
 
 const color_r = '#e71f8f';
 const color_o = '#F39728';
@@ -167,7 +167,7 @@ const swarm_oauth = () => {
     const client_id = configure?.swarm?.client_id;
     const client_secret = configure?.swarm?.client_secret;
     const redirect_url = location.href;
-    if ((client_id.length > 0) && (client_secret > 0)) {
+    if ((client_id.length > 0) && (client_secret.length > 0)) {
         const url = 'https://foursquare.com/oauth2/authenticate?client_id=' + client_id + '&response_type=code&redirect_uri=' + redirect_url;
         window.location.href = url;
     }
@@ -258,7 +258,7 @@ const load_data = () => {
         button.textContent = 'get checkin data';
         if (! configure?.swarm?.oauth_token) {
             button.disabled = true;
-            // fixme 解除は？
+            // OAuth実行時は画面遷移が発生するため初期値有効で描画されるので明示的な解除は不要
         }
     }
     else {
