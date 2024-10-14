@@ -144,6 +144,10 @@ const load_configure = () => {
         document.getElementById("include_sns").checked = configure?.app?.include_sns;
         document.getElementById("edit_tweet").checked = configure?.app?.edit_tweet;
     }
+    else {
+        // 初回は一度初期状態を保存する
+        save_configure();
+    }
 
     switch (configure?.app?.style_type) {
         case "njgk":
