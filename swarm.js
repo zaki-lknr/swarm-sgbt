@@ -54,6 +54,19 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('style_njgk').addEventListener('change', ()=> {
         switch_app_style("njgk");
     });
+    document.getElementById('share_to_x').addEventListener('click', ()=> {
+        console.log("x");
+        share_app();
+    });
+    document.getElementById('share_to_bsky').addEventListener('click', ()=> {
+        console.log("bsky");
+        share_app();
+    });
+    document.getElementById('share_to_clipboard').addEventListener('click', ()=> {
+        console.log("copy");
+        share_app();
+    });
+
     view_main();
     close_notify();
     input_changed();
@@ -724,4 +737,16 @@ const switch_app_style = (style = null) => {
             document.getElementById("manifest").setAttribute("href", "manifest-sgbt.json");
             break;
     }
+}
+
+const share_app = () => {
+    console.log("share app");
+
+    const share_comment = "Swarm SGBT🎀\r\nSwarm Appのチェックイン履歴をBluesky / 旧Twitterでシェアするアプリ\r\n" + location.href;
+    console.log(encodeURIComponent(share_comment));
+    navigator.clipboard.writeText(share_comment);
+    // if (enable_tweet) {
+    //     window.open('https://x.com/intent/tweet?url=' + detail.checkinShortUrl + '&text=' + encodeURIComponent(comment));
+    // }
+    window.open('https://bsky.app/intent/compose?text=' + encodeURIComponent(share_comment));
 }
