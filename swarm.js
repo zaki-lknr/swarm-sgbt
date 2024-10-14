@@ -291,7 +291,7 @@ const load_data = () => {
         const checkin_data = JSON.parse(checkins);
         // console.log('checkin_data: ' + checkin_data);
 
-        let display = document.getElementById("checkin_list");
+        const display = document.getElementById("checkin_list");
         let index = 0;
         const today = new Date();   // 当日チェックインカウント判定用
         let today_count = 0;
@@ -300,15 +300,15 @@ const load_data = () => {
             // console.log("checkin: " + checkin.venue.name);
             // console.log("createdAt: " + checkin.venue.createdAt);
 
-            let component = document.createElement("div");
+            const component = document.createElement("div");
 
-            let venue_name = document.createElement("div");
+            const venue_name = document.createElement("div");
             venue_name.id = checkin.id + '_comment';
 
             venue_name.textContent = create_share_string(checkin);
 
-            let form_part = document.createElement("div");
-            let url_input = document.createElement("input");
+            const form_part = document.createElement("div");
+            const url_input = document.createElement("input");
             url_input.type = 'text';
             url_input.id = checkin.id;
             if ('checkinShortUrl' in checkin) {
@@ -317,17 +317,17 @@ const load_data = () => {
             form_part.appendChild(url_input);
             // form_part.appendChild(rest_button);
 
-            let header_part = document.createElement("div");
+            const header_part = document.createElement("div");
 
-            let checkin_datetime = document.createElement("div");
-            let datetime = new Date(checkin.createdAt * 1000);
+            const checkin_datetime = document.createElement("div");
+            const datetime = new Date(checkin.createdAt * 1000);
             checkin_datetime.textContent = '['+ (++index) + '] ' + datetime.toLocaleDateString() + ' ' + datetime.toLocaleTimeString();
             if (datetime.toLocaleDateString() === today.toLocaleDateString()) {
                 today_count++;
             }
 
             header_part.appendChild(checkin_datetime);
-            let rest_button = document.createElement("button");
+            const rest_button = document.createElement("button");
             rest_button.textContent = "share";
             // rest_button.onclick = 'create_share()'; // 効かない
             rest_button.addEventListener('click', ()=> {
@@ -383,21 +383,20 @@ const load_data = () => {
                 acc_chk_label.disabled = true;
             }
 
-            let photo_count = checkin.photos.count;
+            const photo_count = checkin.photos.count;
             // console.log("photo count: " + photo_count);
-            let photo_view = document.createElement("div");
+            const photo_view = document.createElement("div");
             if (photo_count > 0) {
                 for (let photos of checkin.photos.items) {
-                    let photo_item = document.createElement("img");
-                    let photo_url = get_image_url(document.body.clientWidth, photo_count, photos);
-                    photo_item.src = photo_url;
+                    const photo_item = document.createElement("img");
+                    photo_item.src = get_image_url(document.body.clientWidth, photo_count, photos);
                     if (preview_image) {
                         photo_view.appendChild(photo_item);
                     }
                 }
             }
 
-            var item_hr = document.createElement("hr");
+            const item_hr = document.createElement("hr");
             // component.appendChild(comment_view);
             component.appendChild(item_hr);
             component.appendChild(header_part);
