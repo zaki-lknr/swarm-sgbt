@@ -7,7 +7,7 @@
 import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.5.6';
+const app_version = '0.6.6';
 
 const color_sgbt_point = '#DD253F';
 const color_sgbt_base = '#454090';
@@ -51,6 +51,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     document.getElementsByClassName('error_icon')[0].addEventListener('click', ()=> {
         close_notify(true);
+    });
+    document.getElementById('change_style').addEventListener('click', ()=> {
+        //fixme お試し
+        console.log("change");
+        document.getElementById("style").setAttribute("href", "style-njgk.css");
     });
     view_main();
     close_notify();
