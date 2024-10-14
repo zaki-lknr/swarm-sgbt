@@ -151,6 +151,16 @@ const load_configure = () => {
     if (configure?.app?.edit_tweet)
         document.getElementById("edit_tweet").checked = configure?.app?.edit_tweet;
 
+    switch (configure?.app?.style_type) {
+        case "njgk":
+            document.getElementById('style_njgk').checked = true;
+            break;
+        case "sgbt":
+        default:
+            document.getElementById('style_sgbt').checked = true;
+            break;
+    }
+
     return configure;
 }
 
