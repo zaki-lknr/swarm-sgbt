@@ -654,7 +654,7 @@ const set_error = (error = null) => {
     error_notify.className = 'error_notify';
     error_notify.disabled = false;
     error_notify.style.display = 'flex';
-    document.getElementsByClassName('error')[0].src = 'images/check-icon.svg';
+    document.getElementById('error_icon').className = 'error_icon';
 }
 
 /**
@@ -669,7 +669,7 @@ const set_progress = (msg = null) => {
     error_notify.className = 'progress_notify';
     error_notify.disabled = true;
     error_notify.style.display = 'flex';
-    document.getElementsByClassName('error')[0].src = 'images/progress-icon-sgbt.gif';
+    document.getElementById('error_icon').className = 'progress_icon';
 }
 
 

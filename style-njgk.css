@@ -44,6 +44,7 @@ div#checkin_list {
     padding: 10px 10px 10px 10px;
 }
 .error_message {
+    /* progressと共通 */
     color: white;
     padding-left: 10px;
     padding-right: 10px;
@@ -53,6 +54,9 @@ div#checkin_list {
     display: flex;
     justify-content: flex-end;
     cursor: pointer;
+    background-image: url('images/check-icon.svg');
+    height: 20px;
+    width: 20px;
 }
 .progress_notify {
     position: fixed;
@@ -64,6 +68,15 @@ div#checkin_list {
     align-items: center;
     background-color: #F39728;
     padding: 10px 10px 10px 10px;
+}
+.progress_icon {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+    background-image: url('images/progress-icon-njgk.gif');
+    height: 20px;
+    width: 20px;
 }
 
 .configure {
