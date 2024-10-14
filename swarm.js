@@ -132,18 +132,16 @@ const load_configure = () => {
         document.getElementById("oauth_token").value = configure?.swarm?.oauth_token;
     if (configure?.swarm?.api_key)
         document.getElementById("api_key").value = configure?.swarm?.api_key;
+
     if (configure?.bsky?.bsky_id)
         document.getElementById("bsky_id").value = configure?.bsky?.bsky_id;
     if (configure?.bsky?.bsky_pass)
         document.getElementById("bsky_pass").value = configure?.bsky?.bsky_pass;
-    if (configure?.app?.view_image)
-        document.getElementById("view_image").checked = configure?.app?.view_image;
-    if (configure?.app?.post_bsky)
-        document.getElementById("post_bsky").checked = configure?.app?.post_bsky;
-    if (configure?.app?.include_sns)
-        document.getElementById("include_sns").checked = configure?.app?.include_sns;
-    if (configure?.app?.edit_tweet)
-        document.getElementById("edit_tweet").checked = configure?.app?.edit_tweet;
+
+    document.getElementById("view_image").checked = configure?.app?.view_image;
+    document.getElementById("post_bsky").checked = configure?.app?.post_bsky;
+    document.getElementById("include_sns").checked = configure?.app?.include_sns;
+    document.getElementById("edit_tweet").checked = configure?.app?.edit_tweet;
 
     switch (configure?.app?.style_type) {
         case "njgk":
