@@ -138,6 +138,11 @@ button:disabled {
     transform: scale(1);
     border: none;
 }
+.button_layout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 div#help {
     margin-top: 10px;
