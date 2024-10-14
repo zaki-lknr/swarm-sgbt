@@ -7,7 +7,7 @@
 import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.6.1';
+const app_version = '0.7.0';
 
 /**
  * htmlロード時のイベントリスナ設定
@@ -243,7 +243,7 @@ const get_image_url = (disp_width, count, photo) => {
         return photo.prefix + photo.width + 'x' + photo.height + photo.suffix;
     }
     else {
-        let w = disp_width * 0.95; // fixme
+        let w = disp_width * 0.94; // fixme
         let h = photo.height * w / photo.width;
         if (count != 1) {
             // さらに半分
@@ -390,6 +390,7 @@ const load_data = () => {
                 for (let photos of checkin.photos.items) {
                     const photo_item = document.createElement("img");
                     photo_item.src = get_image_url(document.body.clientWidth, photo_count, photos);
+                    photo_item.className = 'photo_view';
                     if (preview_image) {
                         photo_view.appendChild(photo_item);
                     }
