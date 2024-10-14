@@ -396,11 +396,11 @@ const load_data = () => {
 
             var item_hr = document.createElement("hr");
             // component.appendChild(comment_view);
+            component.appendChild(item_hr);
             component.appendChild(header_part);
             component.appendChild(venue_name);
             component.appendChild(form_part);
             component.appendChild(photo_view);
-            component.appendChild(item_hr);
             display.appendChild(component);
         }
         const comment_view = document.getElementById("comment");
