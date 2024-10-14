@@ -3,10 +3,10 @@
     <head>
         <meta charset="utf-8">
         <title>Swarm SGBT</title>
-        <script src="swarm.js" type="module"></script>
+        <script src="swarm.js?1014d" type="module"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link href="style.css" rel="stylesheet" type="text/css" media="all" />
-        <link rel="manifest" href="manifest.json" />
+        <link href="style-sgbt.css?1014d" rel="stylesheet" type="text/css" media="all" id="style"/>
+        <link rel="manifest" href="manifest-sgbt.json" id="manifest"/>
     </head>
 
     <body id="body">
@@ -20,11 +20,10 @@
                 </ul>
             </nav>
         </header>
-        <div id="error_notify">
-            <div id="error_message">
+        <div id="error_notify" class="error_notify">
+            <div id="error_message" class="error_message">
             </div>
-            <div class="error_icon">
-                <img src="images/check-icon.svg" class="error"/>
+            <div id="error_icon" class="error_icon">
             </div>
         </div>
         <div id="configure">
@@ -69,9 +68,14 @@
             <input type="checkbox" id="edit_tweet" name="edit_tweet" />
             <label for="edit_tweet">open tweet</label>
             <br/>
+            Style: 
+            <input type="radio" id="style_sgbt" name="window_style" value="sgbt" checked/>
+            <label for="style_sgbt">SGBT</label>
+            <input type="radio" id="style_njgk" name="window_style" value="njgk"/>
+            <label for="style_njgk">NJGK</label>
+            <br/>
             <button id="btn_save">save</button>
             <button id="btn_load">load</button>
-
             <hr/>
             <div id="author">
                 Swarm SGBT is developed by zaki.<br/>

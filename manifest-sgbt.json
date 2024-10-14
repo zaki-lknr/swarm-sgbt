@@ -1,0 +1,23 @@
+{
+    "name": "Swarm SGBT",
+    "short_name": "Swarm SGBT",
+    "description": "Swarm Share-Gad-Bluesky-Tw",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "theme_color": "#ffffff",
+    "background_color": "#454090",
+    "icons": [
+        {
+            "src": "images/icon-512x512-sgbt.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "images/icon-192x192-sgbt.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}

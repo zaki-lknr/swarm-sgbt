@@ -7,16 +7,14 @@
 import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.5.6';
-
-const color_r = '#e71f8f';
-const color_o = '#F39728';
+const app_version = '0.6.1';
 
 /**
  * htmlロード時のイベントリスナ設定
  */
 document.addEventListener("DOMContentLoaded", () => {
     load_data();
+    switch_app_style();
 
     // リスナー設定をこの外に記述するとやはり早すぎて無効なのでここ
     document.getElementById('btn_save').addEventListener('click', ()=> {
@@ -50,6 +48,12 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementsByClassName('error_icon')[0].addEventListener('click', ()=> {
         close_notify(true);
     });
+    document.getElementById('style_sgbt').addEventListener('change', ()=> {
+        switch_app_style("sgbt");
+    });
+    document.getElementById('style_njgk').addEventListener('change', ()=> {
+        switch_app_style("njgk");
+    });
     view_main();
     close_notify();
     input_changed();
@@ -75,12 +79,24 @@ const save_configure = () => {
     const include_sns = document.getElementById("include_sns").checked;
     const edit_tweet = document.getElementById("edit_tweet").checked;
 
+    const styles = document.getElementsByName("window_style");
+    let style_type;
+    for (const s of styles) {
+        // console.log(s);
+        // console.log(s.checked);
+        // console.log(s.value);
+        if (s.checked) {
+            style_type = s.value;
+        }
+    }
+
     const configure = {
         app: {
             view_image: view_image,
             include_sns: include_sns,
             edit_tweet: edit_tweet,
             post_bsky: post_bsky,
+            style_type: style_type
         },
         swarm: {
             oauth_token: input_token,
@@ -128,6 +144,16 @@ const load_configure = () => {
         document.getElementById("include_sns").checked = configure?.app?.include_sns;
     if (configure?.app?.edit_tweet)
         document.getElementById("edit_tweet").checked = configure?.app?.edit_tweet;
+
+    switch (configure?.app?.style_type) {
+        case "njgk":
+            document.getElementById('style_njgk').checked = true;
+            break;
+        case "sgbt":
+        default:
+            document.getElementById('style_sgbt').checked = true;
+            break;
+    }
 
     return configure;
 }
@@ -609,11 +635,11 @@ const copy_text = () => {
 const set_error = (error = null) => {
     const error_notify = document.getElementById('error_notify');
     // console.log("set_error(start)");
+    document.getElementById('error_message').textContent = error;
+    error_notify.className = 'error_notify';
     error_notify.disabled = false;
     error_notify.style.display = 'flex';
-    document.getElementById('error_message').textContent = error;
-    error_notify.style.backgroundColor = color_r;
-    document.getElementsByClassName('error')[0].src = 'images/check-icon.svg';
+    document.getElementById('error_icon').className = 'error_icon';
 }
 
 /**
@@ -623,12 +649,12 @@ const set_error = (error = null) => {
 const set_progress = (msg = null) => {
     const error_notify = document.getElementById('error_notify');
     // console.log("set_progress(start)");
-    error_notify.disabled = true;
-    error_notify.style.display = 'flex';
     const elem = document.getElementById('error_message');
     elem.textContent = msg;
-    error_notify.style.backgroundColor = color_o;
-    document.getElementsByClassName('error')[0].src = 'images/progress-icon.gif';
+    error_notify.className = 'progress_notify';
+    error_notify.disabled = true;
+    error_notify.style.display = 'flex';
+    document.getElementById('error_icon').className = 'progress_icon';
 }
 
 
@@ -667,5 +693,28 @@ const input_changed = () => {
     }
     else {
         btn_oauth.disabled = true;
+    }
+}
+
+/**
+ * スタイル変更
+ * @param {string} スタイル指定キーワード(指定なし時は保存済みconfigureから)
+ */
+const switch_app_style = (style = null) => {
+    // style設定
+    if (style === null) {
+        const configure = load_configure();
+        style = configure?.app?.style_type;
+    }
+    switch (style) {
+        case "njgk":
+            document.getElementById("style").setAttribute("href", "style-njgk.css");
+            document.getElementById("manifest").setAttribute("href", "manifest-njgk.json");
+            break;
+        case "sgbt":
+        default:
+            document.getElementById("style").setAttribute("href", "style-sgbt.css");
+            document.getElementById("manifest").setAttribute("href", "manifest-sgbt.json");
+            break;
     }
 }

@@ -13,15 +13,23 @@ div#checkin_list {
     margin: 10px;
 }
 
+hr {
+    background-color: #DD253F;
+    border: none;
+    height: 1px;
+}
+
 .header {
-    /* color: #e71f8f; */
-    color: white;
-    background-color: #F39728;
+    color: #FFE3AD;
+    background-color: #454090;
     padding-left: 15px;
     padding-right: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom-color: #DD253F;
+    border-bottom-width: 5px;
+    border-bottom-style: solid;
 }
 .header-nav {
     list-style: none;
@@ -32,7 +40,7 @@ div#checkin_list {
     margin-left: 30px;
 }
 
-#error_notify {
+.error_notify {
     position: fixed;
     left: 0;
     bottom: 0;
@@ -40,10 +48,11 @@ div#checkin_list {
     display: none;
     justify-content: space-between;
     align-items: center;
-    background-color: #e71f8f;
+    background-color: #DD253F;
     padding: 10px 10px 10px 10px;
 }
-#error_message {
+.error_message {
+    /* progressと共通 */
     color: white;
     padding-left: 10px;
     padding-right: 10px;
@@ -53,6 +62,33 @@ div#checkin_list {
     display: flex;
     justify-content: flex-end;
     cursor: pointer;
+    background-image: url('images/check-icon.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 20px;
+    width: 20px;
+}
+.progress_notify {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #454090;
+    padding: 10px 10px 10px 10px;
+}
+.progress_icon {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+    background-image: url('images/progress-icon-sgbt.gif');
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 20px;
+    width: 20px;
 }
 
 .configure {
@@ -88,8 +124,8 @@ button {
     margin-bottom: 10px;
     border-radius: 20px;
     color: white;
-    background-color: #F39728;
-    border: 1px solid #e71f8f;
+    background-color: #454090;
+    border: 1px solid #DD253F;
     transition: transform .2s;
 }
 button:active {
