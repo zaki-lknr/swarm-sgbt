@@ -20,6 +20,18 @@ const color_nj_base = '#F39728';
 document.addEventListener("DOMContentLoaded", () => {
     load_data();
 
+    // style設定
+    const configure = load_configure();
+    switch (configure?.app?.style_type) {
+        case "njgk":
+            document.getElementById("style").setAttribute("href", "style-njgk.css");
+            break;
+        case "sgbt":
+        default:
+            document.getElementById("style").setAttribute("href", "style.css");
+            break;
+    }
+
     // リスナー設定をこの外に記述するとやはり早すぎて無効なのでここ
     document.getElementById('btn_save').addEventListener('click', ()=> {
         save_configure();
