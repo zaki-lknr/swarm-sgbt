@@ -143,6 +143,10 @@ button:disabled {
     justify-content: center;
 }
 
+.checkbox {
+    margin-left: 15px;
+}
+
 div#help {
     margin-top: 10px;
     margin-bottom: 10px;

@@ -341,6 +341,7 @@ const load_data = () => {
             bsky_checkbox.id = 'bsky_' + checkin.id;
             bsky_checkbox.name = 'bsky_' + checkin.id;
             bsky_checkbox.value = 'bsky_' + checkin.id;
+            bsky_checkbox.className = 'checkbox';
             bsky_checkbox.checked = configure.app.post_bsky;
             const bsky_chk_label = document.createElement("label");
             bsky_chk_label.htmlFor = 'bsky_' + checkin.id;
@@ -357,6 +358,7 @@ const load_data = () => {
             tw_checkbox.id = 'tw_edit_' + checkin.id;
             tw_checkbox.name = 'tw_edit_' + checkin.id;
             tw_checkbox.value = 'tw_edit_' + checkin.id;
+            tw_checkbox.className = 'checkbox';
             tw_checkbox.checked = configure.app.edit_tweet;
             const tw_chk_label = document.createElement("label");
             tw_chk_label.htmlFor = 'tw_edit_' + checkin.id;
@@ -369,6 +371,7 @@ const load_data = () => {
             acc_checkbox.id = 'acc_include_' + checkin.id;
             acc_checkbox.name = 'acc_include_' + checkin.id;
             acc_checkbox.value = 'acc_include_' + checkin.id;
+            acc_checkbox.className = 'checkbox';
             acc_checkbox.checked = configure.app.include_sns;
             const acc_chk_label = document.createElement("label");
             acc_chk_label.htmlFor = 'acc_include_' + checkin.id;
