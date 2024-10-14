@@ -60,6 +60,8 @@ hr {
     justify-content: flex-end;
     cursor: pointer;
     background-image: url('images/check-icon.svg');
+    background-repeat: no-repeat;
+    background-position: center;
     height: 20px;
     width: 20px;
 }
@@ -80,6 +82,8 @@ hr {
     justify-content: flex-end;
     cursor: pointer;
     background-image: url('images/progress-icon-sgbt.gif');
+    background-repeat: no-repeat;
+    background-position: center;
     height: 20px;
     width: 20px;
 }
