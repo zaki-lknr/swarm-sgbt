@@ -138,10 +138,12 @@ const load_configure = () => {
     if (configure?.bsky?.bsky_pass)
         document.getElementById("bsky_pass").value = configure?.bsky?.bsky_pass;
 
-    document.getElementById("view_image").checked = configure?.app?.view_image;
-    document.getElementById("post_bsky").checked = configure?.app?.post_bsky;
-    document.getElementById("include_sns").checked = configure?.app?.include_sns;
-    document.getElementById("edit_tweet").checked = configure?.app?.edit_tweet;
+    if (configure?.app) {
+        document.getElementById("view_image").checked = configure?.app?.view_image;
+        document.getElementById("post_bsky").checked = configure?.app?.post_bsky;
+        document.getElementById("include_sns").checked = configure?.app?.include_sns;
+        document.getElementById("edit_tweet").checked = configure?.app?.edit_tweet;
+    }
 
     switch (configure?.app?.style_type) {
         case "njgk":
