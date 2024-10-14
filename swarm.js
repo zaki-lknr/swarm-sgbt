@@ -25,10 +25,12 @@ document.addEventListener("DOMContentLoaded", () => {
     switch (configure?.app?.style_type) {
         case "njgk":
             document.getElementById("style").setAttribute("href", "style-njgk.css");
+            document.getElementById("manifest").setAttribute("href", "manifest-njgk.json");
             break;
         case "sgbt":
         default:
             document.getElementById("style").setAttribute("href", "style.css");
+            document.getElementById("manifest").setAttribute("href", "manifest.json");
             break;
     }
 
