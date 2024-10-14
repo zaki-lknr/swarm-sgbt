@@ -13,6 +13,12 @@ div#checkin_list {
     margin: 10px;
 }
 
+hr {
+    background-color: #e71f8f;
+    border: none;
+    height: 1px;
+}
+
 .header {
     /* color: #e71f8f; */
     color: white;
@@ -22,6 +28,9 @@ div#checkin_list {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom-color: #e71f8f;
+    border-bottom-width: 5px;
+    border-bottom-style: solid;
 }
 .header-nav {
     list-style: none;
