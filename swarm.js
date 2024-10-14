@@ -52,9 +52,12 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementsByClassName('error_icon')[0].addEventListener('click', ()=> {
         close_notify(true);
     });
-    document.getElementById('change_style').addEventListener('click', ()=> {
+    document.getElementById('style_sgbt').addEventListener('change', ()=> {
         //fixme お試し
-        console.log("change");
+        document.getElementById("style").setAttribute("href", "style.css");
+    });
+    document.getElementById('style_njgk').addEventListener('change', ()=> {
+        //fixme お試し
         document.getElementById("style").setAttribute("href", "style-njgk.css");
     });
     view_main();
@@ -82,12 +85,24 @@ const save_configure = () => {
     const include_sns = document.getElementById("include_sns").checked;
     const edit_tweet = document.getElementById("edit_tweet").checked;
 
+    const styles = document.getElementsByName("window_style");
+    let style_type;
+    for (const s of styles) {
+        // console.log(s);
+        // console.log(s.checked);
+        // console.log(s.value);
+        if (s.checked) {
+            style_type = s.value;
+        }
+    }
+
     const configure = {
         app: {
             view_image: view_image,
             include_sns: include_sns,
             edit_tweet: edit_tweet,
             post_bsky: post_bsky,
+            style_type: style_type
         },
         swarm: {
             oauth_token: input_token,
