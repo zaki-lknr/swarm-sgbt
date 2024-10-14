@@ -14,20 +14,7 @@ const app_version = '0.6.1';
  */
 document.addEventListener("DOMContentLoaded", () => {
     load_data();
-
-    // style設定
-    const configure = load_configure();
-    switch (configure?.app?.style_type) {
-        case "njgk":
-            document.getElementById("style").setAttribute("href", "style-njgk.css");
-            document.getElementById("manifest").setAttribute("href", "manifest-njgk.json");
-            break;
-        case "sgbt":
-        default:
-            document.getElementById("style").setAttribute("href", "style-sgbt.css");
-            document.getElementById("manifest").setAttribute("href", "manifest-sgbt.json");
-            break;
-    }
+    switch_app_style();
 
     // リスナー設定をこの外に記述するとやはり早すぎて無効なのでここ
     document.getElementById('btn_save').addEventListener('click', ()=> {
@@ -62,12 +49,10 @@ document.addEventListener("DOMContentLoaded", () => {
         close_notify(true);
     });
     document.getElementById('style_sgbt').addEventListener('change', ()=> {
-        //fixme お試し
-        document.getElementById("style").setAttribute("href", "style-sgbt.css");
+        switch_app_style("sgbt");
     });
     document.getElementById('style_njgk').addEventListener('change', ()=> {
-        //fixme お試し
-        document.getElementById("style").setAttribute("href", "style-njgk.css");
+        switch_app_style("njgk");
     });
     view_main();
     close_notify();
@@ -708,5 +693,28 @@ const input_changed = () => {
     }
     else {
         btn_oauth.disabled = true;
+    }
+}
+
+/**
+ * スタイル変更
+ * @param {string} スタイル指定キーワード(指定なし時は保存済みconfigureから)
+ */
+const switch_app_style = (style = null) => {
+    // style設定
+    if (style === null) {
+        const configure = load_configure();
+        style = configure?.app?.style_type;
+    }
+    switch (style) {
+        case "njgk":
+            document.getElementById("style").setAttribute("href", "style-njgk.css");
+            document.getElementById("manifest").setAttribute("href", "manifest-njgk.json");
+            break;
+        case "sgbt":
+        default:
+            document.getElementById("style").setAttribute("href", "style-sgbt.css");
+            document.getElementById("manifest").setAttribute("href", "manifest-sgbt.json");
+            break;
     }
 }
