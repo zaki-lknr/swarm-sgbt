@@ -59,6 +59,17 @@ hr {
     justify-content: flex-end;
     cursor: pointer;
 }
+.progress_notify {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #454090;
+    padding: 10px 10px 10px 10px;
+}
 
 .configure {
     width: 30px;

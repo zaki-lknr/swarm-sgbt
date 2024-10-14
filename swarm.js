@@ -9,11 +9,6 @@ import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 const app_name = "Swarm SGBT";
 const app_version = '0.6.1';
 
-const color_sgbt_point = '#DD253F';
-const color_sgbt_base = '#454090';
-const color_nj_point = '#e71f8f';
-const color_nj_base = '#F39728';
-
 /**
  * htmlロード時のイベントリスナ設定
  */
@@ -655,10 +650,10 @@ const copy_text = () => {
 const set_error = (error = null) => {
     const error_notify = document.getElementById('error_notify');
     // console.log("set_error(start)");
+    document.getElementById('error_message').textContent = error;
+    error_notify.className = 'error_notify';
     error_notify.disabled = false;
     error_notify.style.display = 'flex';
-    document.getElementById('error_message').textContent = error;
-    error_notify.style.backgroundColor = color_sgbt_point;
     document.getElementsByClassName('error')[0].src = 'images/check-icon.svg';
 }
 
@@ -669,11 +664,11 @@ const set_error = (error = null) => {
 const set_progress = (msg = null) => {
     const error_notify = document.getElementById('error_notify');
     // console.log("set_progress(start)");
-    error_notify.disabled = true;
-    error_notify.style.display = 'flex';
     const elem = document.getElementById('error_message');
     elem.textContent = msg;
-    error_notify.style.backgroundColor = color_sgbt_base;
+    error_notify.className = 'progress_notify';
+    error_notify.disabled = true;
+    error_notify.style.display = 'flex';
     document.getElementsByClassName('error')[0].src = 'images/progress-icon-sgbt.gif';
 }
 
