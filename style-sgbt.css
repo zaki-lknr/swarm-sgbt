@@ -28,15 +28,6 @@ hr {
     justify-content: space-between;
     align-items: center;
 }
-.header_niji {
-    color: white;
-    background-color: #F39728;
-    padding-left: 15px;
-    padding-right: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
 .header-nav {
     list-style: none;
     display: flex;
@@ -55,17 +46,6 @@ hr {
     justify-content: space-between;
     align-items: center;
     background-color: #DD253F;
-    padding: 10px 10px 10px 10px;
-}
-#error_notify_niji {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    display: none;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #e71f8f;
     padding: 10px 10px 10px 10px;
 }
 #error_message {
@@ -125,18 +105,6 @@ button:disabled {
     cursor: not-allowed;
     transform: scale(1);
     border: none;
-}
-.button_niji {
-    height: 44px;
-    padding-left: 35px;
-    padding-right: 35px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border-radius: 20px;
-    color: white;
-    background-color: #F39728;
-    border: 1px solid #e71f8f;
-    transition: transform .2s;
 }
 
 div#help {
