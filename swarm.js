@@ -618,15 +618,19 @@ const get_detail = async (checkin_id, configure) => {
 const switch_configure = () => {
     // console.log("configure!: " + document.getElementById("configure").style.display);
     if (document.getElementById("configure").style.display == 'none') {
-        document.getElementById("configure").style.display = '';
-        document.getElementById("control").style.display = 'none';
-        document.getElementById("checkin_list").style.display = 'none';
+        view_config();
     }
     else {
         clear_data();
         load_data();
         view_main();
     }
+}
+
+const view_config = () => {
+    document.getElementById("configure").style.display = '';
+    document.getElementById("control").style.display = 'none';
+    document.getElementById("checkin_list").style.display = 'none';
 }
 
 const view_main = () => {
