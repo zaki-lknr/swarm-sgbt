@@ -7,7 +7,7 @@
 import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.7.0';
+const app_version = '0.7.2';
 
 /**
  * htmlロード時のイベントリスナ設定
@@ -55,16 +55,16 @@ document.addEventListener("DOMContentLoaded", () => {
         switch_app_style("njgk");
     });
     document.getElementById('share_to_x').addEventListener('click', ()=> {
-        console.log("x");
-        share_app();
+        // console.log("x");
+        share_app("x");
     });
     document.getElementById('share_to_bsky').addEventListener('click', ()=> {
-        console.log("bsky");
-        share_app();
+        // console.log("bsky");
+        share_app("bsky");
     });
     document.getElementById('share_to_clipboard').addEventListener('click', ()=> {
-        console.log("copy");
-        share_app();
+        // console.log("copy");
+        share_app("copy");
     });
 
     view_main();
@@ -739,14 +739,22 @@ const switch_app_style = (style = null) => {
     }
 }
 
-const share_app = () => {
+const share_app = (key) => {
     console.log("share app");
 
-    const share_comment = "Swarm SGBT🎀\r\nSwarm Appのチェックイン履歴をBluesky / 旧Twitterでシェアするアプリ\r\n" + location.href;
-    console.log(encodeURIComponent(share_comment));
-    navigator.clipboard.writeText(share_comment);
-    // if (enable_tweet) {
-    //     window.open('https://x.com/intent/tweet?url=' + detail.checkinShortUrl + '&text=' + encodeURIComponent(comment));
-    // }
-    window.open('https://bsky.app/intent/compose?text=' + encodeURIComponent(share_comment));
+    const comment = "Swarm SGBT🦋🐝\r\nSwarm Appのチェックイン履歴をBluesky / 旧Twitterでシェア・テキストコピーします";
+    const share_comment = comment + "\r\n" + location.href;
+    // console.log(encodeURIComponent(share_comment));
+    switch(key) {
+        case "x":
+            window.open('https://x.com/intent/tweet?url=' + location.href + '&text=' + encodeURIComponent(comment));
+            break;
+        case "bsky":
+            window.open('https://bsky.app/intent/compose?text=' + encodeURIComponent(comment + "\r\n") + location.href);
+            break;
+        case "copy":
+        default:
+            navigator.clipboard.writeText(share_comment);
+            break;
+    }
 }
