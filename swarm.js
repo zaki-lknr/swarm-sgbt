@@ -7,22 +7,17 @@
 import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.6.1';
+const app_version = '0.8.0';
 
 /**
  * htmlロード時のイベントリスナ設定
  */
 document.addEventListener("DOMContentLoaded", () => {
-    load_data();
-    switch_app_style();
 
     // リスナー設定をこの外に記述するとやはり早すぎて無効なのでここ
     document.getElementById('btn_save').addEventListener('click', ()=> {
         save_configure();
         switch_configure();
-    });
-    document.getElementById('btn_load').addEventListener('click', ()=> {
-        load_configure();
     });
     document.getElementById('btn_swm_oauth').addEventListener('click', ()=> {
         swarm_oauth();
@@ -54,7 +49,27 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('style_njgk').addEventListener('change', ()=> {
         switch_app_style("njgk");
     });
-    view_main();
+    document.getElementById('share_to_x').addEventListener('click', ()=> {
+        // console.log("x");
+        share_app("x");
+    });
+    document.getElementById('share_to_bsky').addEventListener('click', ()=> {
+        // console.log("bsky");
+        share_app("bsky");
+    });
+    document.getElementById('share_to_clipboard').addEventListener('click', ()=> {
+        // console.log("copy");
+        share_app("copy");
+    });
+
+    switch_app_style();
+    const authenticated = load_data();
+    if (authenticated) {
+        view_main();
+    }
+    else {
+        view_config();
+    }
     close_notify();
     input_changed();
 });
@@ -132,18 +147,22 @@ const load_configure = () => {
         document.getElementById("oauth_token").value = configure?.swarm?.oauth_token;
     if (configure?.swarm?.api_key)
         document.getElementById("api_key").value = configure?.swarm?.api_key;
+
     if (configure?.bsky?.bsky_id)
         document.getElementById("bsky_id").value = configure?.bsky?.bsky_id;
     if (configure?.bsky?.bsky_pass)
         document.getElementById("bsky_pass").value = configure?.bsky?.bsky_pass;
-    if (configure?.app?.view_image)
+
+    if (configure?.app) {
         document.getElementById("view_image").checked = configure?.app?.view_image;
-    if (configure?.app?.post_bsky)
         document.getElementById("post_bsky").checked = configure?.app?.post_bsky;
-    if (configure?.app?.include_sns)
         document.getElementById("include_sns").checked = configure?.app?.include_sns;
-    if (configure?.app?.edit_tweet)
         document.getElementById("edit_tweet").checked = configure?.app?.edit_tweet;
+    }
+    else {
+        // 初回は一度初期状態を保存する
+        save_configure();
+    }
 
     switch (configure?.app?.style_type) {
         case "njgk":
@@ -243,7 +262,7 @@ const get_image_url = (disp_width, count, photo) => {
         return photo.prefix + photo.width + 'x' + photo.height + photo.suffix;
     }
     else {
-        let w = disp_width * 0.95; // fixme
+        let w = disp_width * 0.94; // fixme
         let h = photo.height * w / photo.width;
         if (count != 1) {
             // さらに半分
@@ -256,8 +275,10 @@ const get_image_url = (disp_width, count, photo) => {
 
 /**
  * データロードと画面描画
+ * @returns 認証済みフラグ
  */
 const load_data = () => {
+    // console.log("load_data begin");
     // title version
     document.getElementById('title').textContent = app_name + ' ver.' + app_version + ' / jpz-bsky:' + JpzBskyClient.getVersion();
 
@@ -285,13 +306,14 @@ const load_data = () => {
         if (! configure?.swarm?.oauth_token) {
             button.disabled = true;
             // OAuth実行時は画面遷移が発生するため初期値有効で描画されるので明示的な解除は不要
+            return false;
         }
     }
     else {
         const checkin_data = JSON.parse(checkins);
         // console.log('checkin_data: ' + checkin_data);
 
-        let display = document.getElementById("checkin_list");
+        const display = document.getElementById("checkin_list");
         let index = 0;
         const today = new Date();   // 当日チェックインカウント判定用
         let today_count = 0;
@@ -300,15 +322,15 @@ const load_data = () => {
             // console.log("checkin: " + checkin.venue.name);
             // console.log("createdAt: " + checkin.venue.createdAt);
 
-            let component = document.createElement("div");
+            const component = document.createElement("div");
 
-            let venue_name = document.createElement("div");
+            const venue_name = document.createElement("div");
             venue_name.id = checkin.id + '_comment';
 
             venue_name.textContent = create_share_string(checkin);
 
-            let form_part = document.createElement("div");
-            let url_input = document.createElement("input");
+            const form_part = document.createElement("div");
+            const url_input = document.createElement("input");
             url_input.type = 'text';
             url_input.id = checkin.id;
             if ('checkinShortUrl' in checkin) {
@@ -317,17 +339,17 @@ const load_data = () => {
             form_part.appendChild(url_input);
             // form_part.appendChild(rest_button);
 
-            let header_part = document.createElement("div");
+            const header_part = document.createElement("div");
 
-            let checkin_datetime = document.createElement("div");
-            let datetime = new Date(checkin.createdAt * 1000);
+            const checkin_datetime = document.createElement("div");
+            const datetime = new Date(checkin.createdAt * 1000);
             checkin_datetime.textContent = '['+ (++index) + '] ' + datetime.toLocaleDateString() + ' ' + datetime.toLocaleTimeString();
             if (datetime.toLocaleDateString() === today.toLocaleDateString()) {
                 today_count++;
             }
 
             header_part.appendChild(checkin_datetime);
-            let rest_button = document.createElement("button");
+            const rest_button = document.createElement("button");
             rest_button.textContent = "share";
             // rest_button.onclick = 'create_share()'; // 効かない
             rest_button.addEventListener('click', ()=> {
@@ -341,6 +363,7 @@ const load_data = () => {
             bsky_checkbox.id = 'bsky_' + checkin.id;
             bsky_checkbox.name = 'bsky_' + checkin.id;
             bsky_checkbox.value = 'bsky_' + checkin.id;
+            bsky_checkbox.className = 'checkbox';
             bsky_checkbox.checked = configure.app.post_bsky;
             const bsky_chk_label = document.createElement("label");
             bsky_chk_label.htmlFor = 'bsky_' + checkin.id;
@@ -357,6 +380,7 @@ const load_data = () => {
             tw_checkbox.id = 'tw_edit_' + checkin.id;
             tw_checkbox.name = 'tw_edit_' + checkin.id;
             tw_checkbox.value = 'tw_edit_' + checkin.id;
+            tw_checkbox.className = 'checkbox';
             tw_checkbox.checked = configure.app.edit_tweet;
             const tw_chk_label = document.createElement("label");
             tw_chk_label.htmlFor = 'tw_edit_' + checkin.id;
@@ -369,6 +393,7 @@ const load_data = () => {
             acc_checkbox.id = 'acc_include_' + checkin.id;
             acc_checkbox.name = 'acc_include_' + checkin.id;
             acc_checkbox.value = 'acc_include_' + checkin.id;
+            acc_checkbox.className = 'checkbox';
             acc_checkbox.checked = configure.app.include_sns;
             const acc_chk_label = document.createElement("label");
             acc_chk_label.htmlFor = 'acc_include_' + checkin.id;
@@ -380,32 +405,33 @@ const load_data = () => {
                 acc_chk_label.disabled = true;
             }
 
-            let photo_count = checkin.photos.count;
+            const photo_count = checkin.photos.count;
             // console.log("photo count: " + photo_count);
-            let photo_view = document.createElement("div");
+            const photo_view = document.createElement("div");
             if (photo_count > 0) {
                 for (let photos of checkin.photos.items) {
-                    let photo_item = document.createElement("img");
-                    let photo_url = get_image_url(document.body.clientWidth, photo_count, photos);
-                    photo_item.src = photo_url;
+                    const photo_item = document.createElement("img");
+                    photo_item.src = get_image_url(document.body.clientWidth, photo_count, photos);
+                    photo_item.className = 'photo_view';
                     if (preview_image) {
                         photo_view.appendChild(photo_item);
                     }
                 }
             }
 
-            var item_hr = document.createElement("hr");
+            const item_hr = document.createElement("hr");
             // component.appendChild(comment_view);
+            component.appendChild(item_hr);
             component.appendChild(header_part);
             component.appendChild(venue_name);
             component.appendChild(form_part);
             component.appendChild(photo_view);
-            component.appendChild(item_hr);
             display.appendChild(component);
         }
         const comment_view = document.getElementById("comment");
         comment_view.textContent = 'todays checkin: ' + today_count;
     }
+    return true;
 }
 
 /**
@@ -598,9 +624,7 @@ const get_detail = async (checkin_id, configure) => {
 const switch_configure = () => {
     // console.log("configure!: " + document.getElementById("configure").style.display);
     if (document.getElementById("configure").style.display == 'none') {
-        document.getElementById("configure").style.display = '';
-        document.getElementById("control").style.display = 'none';
-        document.getElementById("checkin_list").style.display = 'none';
+        view_config();
     }
     else {
         clear_data();
@@ -609,7 +633,15 @@ const switch_configure = () => {
     }
 }
 
+const view_config = () => {
+    // console.log("view_configure");
+    document.getElementById("configure").style.display = '';
+    document.getElementById("control").style.display = 'none';
+    document.getElementById("checkin_list").style.display = 'none';
+}
+
 const view_main = () => {
+    // console.log("view_main");
     document.getElementById("configure").style.display = 'none';
     document.getElementById("control").style.display = '';
     document.getElementById("checkin_list").style.display = '';
@@ -715,6 +747,26 @@ const switch_app_style = (style = null) => {
         default:
             document.getElementById("style").setAttribute("href", "style-sgbt.css");
             document.getElementById("manifest").setAttribute("href", "manifest-sgbt.json");
+            break;
+    }
+}
+
+const share_app = (key) => {
+    console.log("share app");
+
+    const comment = "Swarm SGBT🦋🐝\r\nSwarm Appのチェックイン履歴をBluesky / 旧Twitterでシェア・テキストコピーします";
+    const share_comment = comment + "\r\n" + location.href;
+    // console.log(encodeURIComponent(share_comment));
+    switch(key) {
+        case "x":
+            window.open('https://x.com/intent/tweet?url=' + location.href + '&text=' + encodeURIComponent(comment));
+            break;
+        case "bsky":
+            window.open('https://bsky.app/intent/compose?text=' + encodeURIComponent(comment + "\r\n") + location.href);
+            break;
+        case "copy":
+        default:
+            navigator.clipboard.writeText(share_comment);
             break;
     }
 }

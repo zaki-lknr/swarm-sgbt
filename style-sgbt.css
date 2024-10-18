@@ -137,8 +137,25 @@ button:disabled {
     transform: scale(1);
     border: none;
 }
+.button_layout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.checkbox {
+    margin-left: 15px;
+}
 
 div#help {
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.photo_view {
+    margin: 1px 1px 1px 1px;
+}
+
+.config_group {
+    border: 1px solid #DD253F;
 }

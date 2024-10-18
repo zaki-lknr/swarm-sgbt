@@ -3,10 +3,17 @@
     <head>
         <meta charset="utf-8">
         <title>Swarm SGBT</title>
-        <script src="swarm.js?1014d" type="module"></script>
+        <script src="swarm.js?1017c" type="module"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link href="style-sgbt.css?1014d" rel="stylesheet" type="text/css" media="all" id="style"/>
+        <link href="style-sgbt.css?1014e" rel="stylesheet" type="text/css" media="all" id="style"/>
         <link rel="manifest" href="manifest-sgbt.json" id="manifest"/>
+        <meta property="og:title" content="Swarm SGBT" />
+        <meta property="og:description" content="SwarmチェックインのSNS共有をお手伝いします" />
+        <meta property="og:image" content="https://swarm.jp-z.jp/images/ogp.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Swarm SGBT" />
+        <meta name="twitter:description" content="SwarmチェックインのSNS共有をお手伝いします" />
+        <meta name="twitter:image" content="https://swarm.jp-z.jp/images/ogp.png" />
     </head>
 
     <body id="body">
@@ -27,8 +34,9 @@
             </div>
         </div>
         <div id="configure">
+            このアプリは<a href="https://ja.swarmapp.com/" target="_blank">Swarm App</a>のチェックイン履歴をBluesky/旧Twitterへ共有しやすくするものです。Blueskyは自動投稿しますがXは投稿画面を開くのみなので、手動で画像添付・ポストしてください。
             <h2 id="configure">configure</h2>
-            <fieldset>
+            <fieldset class="config_group">
                 <legend>Swarm</legend>
                 <label for="client_id">Client ID</label>
                 <input type="text" id="client_id" name="client_id" placeholder="Swarm Client ID"/>
@@ -45,47 +53,57 @@
                 <div id="help">まず<a href="https://ja.foursquare.com/developers/home">Foursquare Developer Console</a>でProjectを作成し表示されるClient IDとClient Secretを上記に入力し、Redirect URLには <code id="copy_text">https://swarm.jp-z.jp/</code><img src="images/copy-icon.svg" class="copy_text"/> を入力してください。<br/>次にProject内でGenerate API Keyボタンを押下し作成したAPI Keyを上記に入力してください。<br/>最後にこの画面のOAuthボタンで認証してください。</div>
                 <button id="btn_swm_oauth">OAuth</button>
             </fieldset>
-            <fieldset>
+            <fieldset class="config_group">
                 <legend>Bluesky</legend>
                 <label for="bsky_id">Bluesky username</label>
                 <input type="text" id="bsky_id" name="bsky_id" placeholder="username.bsky.social"/>
                 <br/>
                 <label for="bsky_pass">Bluesky password</label>
                 <input type="password" id="bsky_pass" name="bsky_pass" placeholder="password"/>
-                <div id="help">アプリパスワードは<a href="https://bsky.app/settings/app-passwords">公式サイトまたはアプリ</a>で作成してください。</div>
+                <div id="help">アプリパスワードは<a href="https://bsky.app/settings/app-passwords">公式サイトまたはアプリ</a>で作成してください。<br/>現在対応してるサーバーは https://bsky.social のみです。</div>
             </fieldset>
 
-            <br/>
-            <input type="checkbox" id="view_image" name="view_image" />
-            <label for="view_image">view image</label>
-            <br/>
-            <input type="checkbox" id="post_bsky" name="post_bsky" />
-            <label for="post_bsky">post to Bluesky (auto post)</label>
-            <br/>
-            <input type="checkbox" id="include_sns" name="include_sns" />
-            <label for="include_sns">include venue's twitter account</label>
-            <br/>
-            <input type="checkbox" id="edit_tweet" name="edit_tweet" />
-            <label for="edit_tweet">open tweet</label>
-            <br/>
-            Style: 
-            <input type="radio" id="style_sgbt" name="window_style" value="sgbt" checked/>
-            <label for="style_sgbt">SGBT</label>
-            <input type="radio" id="style_njgk" name="window_style" value="njgk"/>
-            <label for="style_njgk">NJGK</label>
-            <br/>
+            <fieldset class="config_group">
+                <legend>default configure for share</legend>
+                <input type="checkbox" id="post_bsky" name="post_bsky" checked/>
+                <label for="post_bsky">🦋: post to Bluesky (auto post)</label>
+                <br/>
+                <input type="checkbox" id="edit_tweet" name="edit_tweet" checked/>
+                <label for="edit_tweet">𝕏: open twitter</label>
+                <br/>
+                <input type="checkbox" id="include_sns" name="include_sns" checked/>
+                <label for="include_sns">@: include venue's twitter account</label>
+            </fieldset>
+
+            <fieldset class="config_group">
+                <legend>app configure</legend>
+                <input type="checkbox" id="view_image" name="view_image" checked/>
+                <label for="view_image">view image</label>
+                <br/>
+                Style: 
+                <input type="radio" id="style_sgbt" name="window_style" value="sgbt" checked/>
+                <label for="style_sgbt">SGBT</label>
+                <input type="radio" id="style_njgk" name="window_style" value="njgk"/>
+                <label for="style_njgk">NJGK</label>
+            </fieldset>
+
             <button id="btn_save">save</button>
-            <button id="btn_load">load</button>
+            <hr/>
+            このアプリをSNSで共有する<br/>
+            <button id="share_to_x">X</button>
+            <button id="share_to_bsky">Bluesky</button>
+            <button id="share_to_clipboard">COPY</button>
             <hr/>
             <div id="author">
-                Swarm SGBT is developed by zaki.<br/>
-                <a href="https://bsky.app/profile/jp-z.jp" target="_blank">Bluesky</a> / <a href="https://github.com/zaki-lknr/swarm-sgbt" target="_blank">GitHub</a> / <a href="https://x.com/zaki_hmkc" target="_blank">X</a>
+                Swarm SGBT is developed by zaki.
+                <a href="https://github.com/zaki-lknr/swarm-sgbt" target="_blank">GitHub</a> / <a href="https://bsky.app/profile/jp-z.jp" target="_blank">Bluesky</a> / <a href="https://x.com/zaki_hmkc" target="_blank">X</a>
             </div>
         </div>
         <div id="control">
             <div id="comment"></div>
-            <button id="btn_reload">reload</button>
-            <hr/>
+            <div class="button_layout">
+                <button id="btn_reload">reload</button>
+            </div>
         </div>
         <div id="checkin_list">
 
