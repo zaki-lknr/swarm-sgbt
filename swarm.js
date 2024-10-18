@@ -19,9 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
         save_configure();
         switch_configure();
     });
-    document.getElementById('btn_load').addEventListener('click', ()=> {
-        load_configure();
-    });
     document.getElementById('btn_swm_oauth').addEventListener('click', ()=> {
         swarm_oauth();
     });
