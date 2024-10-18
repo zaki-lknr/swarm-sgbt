@@ -7,14 +7,12 @@
 import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.7.2';
+const app_version = '0.8.0';
 
 /**
  * htmlロード時のイベントリスナ設定
  */
 document.addEventListener("DOMContentLoaded", () => {
-    load_data();
-    switch_app_style();
 
     // リスナー設定をこの外に記述するとやはり早すぎて無効なのでここ
     document.getElementById('btn_save').addEventListener('click', ()=> {
@@ -67,7 +65,14 @@ document.addEventListener("DOMContentLoaded", () => {
         share_app("copy");
     });
 
-    view_main();
+    switch_app_style();
+    const authenticated = load_data();
+    if (authenticated) {
+        view_main();
+    }
+    else {
+        view_config();
+    }
     close_notify();
     input_changed();
 });
@@ -273,8 +278,10 @@ const get_image_url = (disp_width, count, photo) => {
 
 /**
  * データロードと画面描画
+ * @returns 認証済みフラグ
  */
 const load_data = () => {
+    // console.log("load_data begin");
     // title version
     document.getElementById('title').textContent = app_name + ' ver.' + app_version + ' / jpz-bsky:' + JpzBskyClient.getVersion();
 
@@ -302,6 +309,7 @@ const load_data = () => {
         if (! configure?.swarm?.oauth_token) {
             button.disabled = true;
             // OAuth実行時は画面遷移が発生するため初期値有効で描画されるので明示的な解除は不要
+            return false;
         }
     }
     else {
@@ -426,6 +434,7 @@ const load_data = () => {
         const comment_view = document.getElementById("comment");
         comment_view.textContent = 'todays checkin: ' + today_count;
     }
+    return true;
 }
 
 /**
@@ -628,12 +637,14 @@ const switch_configure = () => {
 }
 
 const view_config = () => {
+    // console.log("view_configure");
     document.getElementById("configure").style.display = '';
     document.getElementById("control").style.display = 'none';
     document.getElementById("checkin_list").style.display = 'none';
 }
 
 const view_main = () => {
+    // console.log("view_main");
     document.getElementById("configure").style.display = 'none';
     document.getElementById("control").style.display = '';
     document.getElementById("checkin_list").style.display = '';
