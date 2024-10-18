@@ -62,25 +62,30 @@
                 <div id="help">アプリパスワードは<a href="https://bsky.app/settings/app-passwords">公式サイトまたはアプリ</a>で作成してください。</div>
             </fieldset>
 
-            <br/>
-            <input type="checkbox" id="view_image" name="view_image" checked/>
-            <label for="view_image">view image</label>
-            <br/>
-            <input type="checkbox" id="post_bsky" name="post_bsky" checked/>
-            <label for="post_bsky">post to Bluesky (auto post)</label>
-            <br/>
-            <input type="checkbox" id="include_sns" name="include_sns" checked/>
-            <label for="include_sns">include venue's twitter account</label>
-            <br/>
-            <input type="checkbox" id="edit_tweet" name="edit_tweet" checked/>
-            <label for="edit_tweet">open tweet</label>
-            <br/>
-            Style: 
-            <input type="radio" id="style_sgbt" name="window_style" value="sgbt" checked/>
-            <label for="style_sgbt">SGBT</label>
-            <input type="radio" id="style_njgk" name="window_style" value="njgk"/>
-            <label for="style_njgk">NJGK</label>
-            <br/>
+            <fieldset>
+                <legend>default configure for share</legend>
+                <input type="checkbox" id="post_bsky" name="post_bsky" checked/>
+                <label for="post_bsky">post to Bluesky (auto post)</label>
+                <br/>
+                <input type="checkbox" id="include_sns" name="include_sns" checked/>
+                <label for="include_sns">include venue's twitter account</label>
+                <br/>
+                <input type="checkbox" id="edit_tweet" name="edit_tweet" checked/>
+                <label for="edit_tweet">open tweet</label>
+            </fieldset>
+
+            <fieldset>
+                <legend>app configure</legend>
+                <input type="checkbox" id="view_image" name="view_image" checked/>
+                <label for="view_image">view image</label>
+                <br/>
+                Style: 
+                <input type="radio" id="style_sgbt" name="window_style" value="sgbt" checked/>
+                <label for="style_sgbt">SGBT</label>
+                <input type="radio" id="style_njgk" name="window_style" value="njgk"/>
+                <label for="style_njgk">NJGK</label>
+            </fieldset>
+
             <button id="btn_save">save</button>
             <button id="btn_load">load</button>
             <hr/>
