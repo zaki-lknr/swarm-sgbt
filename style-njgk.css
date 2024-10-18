@@ -156,3 +156,6 @@ div#help {
 .photo_view {
     margin: 1px 1px 1px 1px;
 }
+.config_group {
+    border: 1px solid #e71f8f;
+}

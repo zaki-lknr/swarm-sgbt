@@ -36,7 +36,7 @@
         <div id="configure">
             このアプリは<a href="https://ja.swarmapp.com/" target="_blank">Swarm App</a>のチェックイン履歴をBluesky/旧Twitterへ共有しやすくするものです。Blueskyは自動投稿しますがXは投稿画面を開くのみなので、手動で画像添付・ポストしてください。
             <h2 id="configure">configure</h2>
-            <fieldset>
+            <fieldset class="config_group">
                 <legend>Swarm</legend>
                 <label for="client_id">Client ID</label>
                 <input type="text" id="client_id" name="client_id" placeholder="Swarm Client ID"/>
@@ -53,7 +53,7 @@
                 <div id="help">まず<a href="https://ja.foursquare.com/developers/home">Foursquare Developer Console</a>でProjectを作成し表示されるClient IDとClient Secretを上記に入力し、Redirect URLには <code id="copy_text">https://swarm.jp-z.jp/</code><img src="images/copy-icon.svg" class="copy_text"/> を入力してください。<br/>次にProject内でGenerate API Keyボタンを押下し作成したAPI Keyを上記に入力してください。<br/>最後にこの画面のOAuthボタンで認証してください。</div>
                 <button id="btn_swm_oauth">OAuth</button>
             </fieldset>
-            <fieldset>
+            <fieldset class="config_group">
                 <legend>Bluesky</legend>
                 <label for="bsky_id">Bluesky username</label>
                 <input type="text" id="bsky_id" name="bsky_id" placeholder="username.bsky.social"/>
@@ -63,7 +63,7 @@
                 <div id="help">アプリパスワードは<a href="https://bsky.app/settings/app-passwords">公式サイトまたはアプリ</a>で作成してください。</div>
             </fieldset>
 
-            <fieldset>
+            <fieldset class="config_group">
                 <legend>default configure for share</legend>
                 <input type="checkbox" id="post_bsky" name="post_bsky" checked/>
                 <label for="post_bsky">post to Bluesky (auto post)</label>
@@ -75,7 +75,7 @@
                 <label for="edit_tweet">open tweet</label>
             </fieldset>
 
-            <fieldset>
+            <fieldset class="config_group">
                 <legend>app configure</legend>
                 <input type="checkbox" id="view_image" name="view_image" checked/>
                 <label for="view_image">view image</label>
