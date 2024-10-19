@@ -7,7 +7,7 @@
 import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.8.0';
+const app_version = '0.8.1';
 
 /**
  * htmlロード時のイベントリスナ設定
@@ -754,7 +754,7 @@ const switch_app_style = (style = null) => {
 const share_app = (key) => {
     console.log("share app");
 
-    const comment = "Swarm SGBT🦋🐝\r\nSwarm Appのチェックイン履歴をBluesky / 旧Twitterでシェア・テキストコピーします";
+    const comment = "Swarm SGBT🦋🐝\r\nSwarm Appのチェックイン履歴をBluesky / 旧Twitterでシェア・テキストコピーします\r\n#swarm_sgbt";
     const share_comment = comment + "\r\n" + location.href;
     // console.log(encodeURIComponent(share_comment));
     switch(key) {
