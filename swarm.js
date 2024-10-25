@@ -7,7 +7,7 @@
 import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.8.1';
+const app_version = '0.8.2';
 
 /**
  * htmlロード時のイベントリスナ設定
@@ -449,8 +449,9 @@ const create_share_string = (checkin, twitter_id = null) => {
     if ('event' in checkin) {
         event_string = ' for ' + checkin.event.name;
     }
-    // formattedAddressが無いヴェニューもある
-    if ('formattedAddress' in checkin.venue.location) {
+    // formattedAddressが無いヴェニューもある(お台場海浜公園駅前交番)
+    if ('formattedAddress' in checkin.venue.location && checkin.venue.location.formattedAddress.length > 1) {
+        // addressもformattedAddressもあるが、formattedAddressの要素が不足しているヴェニューがある(十三号地公園 記念碑)
         const location = ('address' in checkin.venue.location)? 1: 0;
         location_str = ' in ' + checkin.venue.location.formattedAddress[location];
     }
