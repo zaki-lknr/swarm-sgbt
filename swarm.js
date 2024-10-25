@@ -449,7 +449,7 @@ const create_share_string = (checkin, twitter_id = null) => {
     if ('event' in checkin) {
         event_string = ' for ' + checkin.event.name;
     }
-    // formattedAddressが無いヴェニューもある
+    // formattedAddressが無いヴェニューもある(お台場海浜公園駅前交番)
     if ('formattedAddress' in checkin.venue.location && checkin.venue.location.formattedAddress.length > 1) {
         // addressもformattedAddressもあるが、formattedAddressの要素が不足しているヴェニューがある(十三号地公園 記念碑)
         const location = ('address' in checkin.venue.location)? 1: 0;
