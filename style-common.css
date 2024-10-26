@@ -1,0 +1,76 @@
+body {
+    font-family: system-ui;
+    margin: 0px;
+}
+
+div#configure {
+    margin: 10px;
+}
+div#control {
+    margin: 10px;
+}
+div#checkin_list {
+    margin: 10px;
+}
+
+.header-nav {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+}
+.nav-list {
+    margin-left: 30px;
+}
+
+.configure {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+.copy_text {
+    width: 15px;
+    height: 15px;
+}
+.error {
+    width: 20px;
+    height: 20px;
+}
+
+h1#title {
+    font-size: medium;
+}
+h2#configure {
+    font-size: medium;
+    /* color: white; */
+    /* color: #e71f8f; */
+    /* background-color: #e71f8f; */
+    padding-left: 10px;
+}
+
+button:active {
+    transform: scale(.95);
+}
+button:disabled {
+    filter:brightness(0.8);
+    cursor: not-allowed;
+    transform: scale(1);
+    border: none;
+}
+.button_layout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.checkbox {
+    margin-left: 15px;
+}
+
+div#help {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.photo_view {
+    margin: 1px 1px 1px 1px;
+}
