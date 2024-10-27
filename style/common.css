@@ -75,3 +75,15 @@ div#help {
 .photo_view {
     margin: 1px 1px 1px 1px;
 }
+.photo_block {
+    position: relative;
+    width: auto;
+    height: auto;
+    display: inline-block;
+}
+.photo_block input {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    color: #00f;
+}

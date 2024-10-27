@@ -457,11 +457,22 @@ const load_data = () => {
             const photo_view = document.createElement("div");
             if (photo_count > 0) {
                 for (let photos of checkin.photos.items) {
+                    // img/checkboxオーバーラップ表示用のdiv
+                    const photo_block = document.createElement("div");
+                    photo_block.className = 'photo_block'
                     const photo_item = document.createElement("img");
                     photo_item.src = get_image_url(document.body.clientWidth, photo_count, photos);
                     photo_item.className = 'photo_view';
+                    const photo_checkbox = document.createElement("input");
+                    photo_checkbox.type = 'checkbox';
+                    photo_checkbox.id = 'img_' + checkin.id;
+                    photo_checkbox.name = 'img_' + checkin.id;
+                    photo_checkbox.checked = true; // todo: 可視設定を使う
+
+                    photo_block.appendChild(photo_item);
+                    photo_block.appendChild(photo_checkbox);
                     if (preview_image) {
-                        photo_view.appendChild(photo_item);
+                        photo_view.appendChild(photo_block);
                     }
                 }
             }
