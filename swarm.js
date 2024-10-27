@@ -741,12 +741,12 @@ const switch_app_style = (style = null) => {
     }
     switch (style) {
         case "njgk":
-            document.getElementById("style").setAttribute("href", "style-njgk.css");
+            document.getElementById("style").setAttribute("href", "style/style-njgk.css");
             document.getElementById("manifest").setAttribute("href", "manifest-njgk.json");
             break;
         case "sgbt":
         default:
-            document.getElementById("style").setAttribute("href", "style-sgbt.css");
+            document.getElementById("style").setAttribute("href", "style/style-sgbt.css");
             document.getElementById("manifest").setAttribute("href", "manifest-sgbt.json");
             break;
     }
