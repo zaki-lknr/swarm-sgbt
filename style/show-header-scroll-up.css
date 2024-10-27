@@ -1,0 +1,106 @@
+/*
+ * == Show header on scroll up, hide on scroll down ==
+ * == Author: Fabrizio Calderan
+ * == https://www.linkedin.com/in/fabriziocalderan/
+ * == https://fabrizio.dev/
+ *
+ * It requires scroll-animations, @property support
+ * and style queries: as of today (2024.09.26) it 
+ * works on latest Chrome, Edge and Opera)
+ *
+ * Work based on this article by @bramus
+ * https://www.bram.us/2023/10/23/css-scroll-detection/
+ */
+
+ @property --scroll {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+}
+
+@property --scroll-delayed {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+}
+
+@property --scroll-direction {
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+}
+
+
+@keyframes setScrollProps {
+    to {
+        --scroll: 1000;
+        --scroll-delayed: 1000;
+    }
+}
+
+:root {
+    animation: setScrollProps linear both;
+    animation-timeline: scroll(root);
+    --header-effect-duration: .5s;
+}
+
+body {
+    transition: --scroll-delayed calc(var(--header-effect-duration) + .01s);
+    /* the transition of the header should last a 
+    * bit less than this transition otherwise, for 
+    * extremely small scroll movements, the header 
+    * won't be fully revealed or hidden (that's 
+    * the reason for a + .01 sec. here)
+    */
+
+    --scroll-velocity: calc(var(--scroll) - var(--scroll-delayed));
+    --scroll-speed: max(var(--scroll-velocity), -1 * var(--scroll-velocity));
+    --scroll-direction: calc(var(--scroll-velocity) / var(--scroll-speed));
+}
+
+header {
+    position: fixed;
+    z-index: 1;
+    inset: 0 0 auto;
+    will-change: transform;
+    transition: transform var(--header-effect-duration);
+    transform: translateY(var(--translate));
+
+    @container style(--scroll-direction: 0) {
+        /* Scroll is idle, so we keep the current header 
+       * position by setting an extremely high 
+       * transition delay (~2 billion seconds should 
+       * be enough even the most patient users)
+       */
+        transition-delay: calc(infinity * 1s);
+    }
+
+    @container style(not (--scroll-direction: 0)) {
+        /* page is scrolling: when reverting the scroll
+       * direction, the animation of the header should 
+       * run immediately. If the scroll direction has
+       * not changed then the --translate property will
+       * not change its value, so there is no visible
+       * effect.
+       */
+        transition-delay: 0s;
+    }
+
+    @container style(--scroll-direction: -1) {
+        /* Scrolling up, so we must reveal the header 
+       */
+        --translate: 0;
+    }
+
+    @container style(--scroll-direction: 1) {
+        /* Scrolling down, so we must hide the header 
+       *
+       * Assign a lower value if you want to also hide
+       * the box-shadow below the header
+       * (e.g. --translate: calc(-100% - 15px))
+       */
+        --translate: -100%;
+    }
+}
+
+/* end of relevant code */
