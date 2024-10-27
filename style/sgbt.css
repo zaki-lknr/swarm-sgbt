@@ -1,20 +1,19 @@
-@import url(style-common.css);
+@import url(common.css);
 hr {
-    background-color: #e71f8f;
+    background-color: #DD253F;
     border: none;
     height: 1px;
 }
 
 .header {
-    /* color: #e71f8f; */
-    color: white;
-    background-color: #F39728;
+    color: #FFE3AD;
+    background-color: #454090;
     padding-left: 15px;
     padding-right: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom-color: #e71f8f;
+    border-bottom-color: #DD253F;
     border-bottom-width: 5px;
     border-bottom-style: solid;
 }
@@ -27,7 +26,7 @@ hr {
     display: none;
     justify-content: space-between;
     align-items: center;
-    background-color: #e71f8f;
+    background-color: #DD253F;
     padding: 10px 10px 10px 10px;
 }
 .error_message {
@@ -55,7 +54,7 @@ hr {
     display: none;
     justify-content: space-between;
     align-items: center;
-    background-color: #F39728;
+    background-color: #454090;
     padding: 10px 10px 10px 10px;
 }
 .progress_icon {
@@ -63,7 +62,7 @@ hr {
     display: flex;
     justify-content: flex-end;
     cursor: pointer;
-    background-image: url('images/progress-icon-njgk.gif');
+    background-image: url('images/progress-icon-sgbt.gif');
     background-repeat: no-repeat;
     background-position: center;
     height: 20px;
@@ -78,11 +77,11 @@ button {
     margin-bottom: 10px;
     border-radius: 20px;
     color: white;
-    background-color: #F39728;
-    border: 1px solid #e71f8f;
+    background-color: #454090;
+    border: 1px solid #DD253F;
     transition: transform .2s;
 }
 
 .config_group {
-    border: 1px solid #e71f8f;
+    border: 1px solid #DD253F;
 }
