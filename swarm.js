@@ -174,6 +174,23 @@ const load_configure = () => {
             break;
     }
 
+    console.log(document.getElementById("load_count").value);
+    switch (configure?.app?.load_count) {
+        case "0":
+            console.log("0");
+            document.getElementById("load_count").options[0].selected = true;
+            break;
+        case "2":
+            console.log("2");
+            document.getElementById("load_count").options[2].selected = true;
+            break;
+        case "1":
+        default:
+            console.log("default or 1");
+            document.getElementById("load_count").options[1].selected = true;
+            break;
+    }
+
     return configure;
 }
 
