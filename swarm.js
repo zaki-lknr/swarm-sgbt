@@ -93,6 +93,7 @@ const save_configure = () => {
     const view_image = document.getElementById("view_image").checked;
     const include_sns = document.getElementById("include_sns").checked;
     const edit_tweet = document.getElementById("edit_tweet").checked;
+    const load_count = document.getElementById("load_count").value;
 
     const styles = document.getElementsByName("window_style");
     let style_type;
@@ -111,7 +112,8 @@ const save_configure = () => {
             include_sns: include_sns,
             edit_tweet: edit_tweet,
             post_bsky: post_bsky,
-            style_type: style_type
+            style_type: style_type,
+            load_count: load_count
         },
         swarm: {
             oauth_token: input_token,
@@ -135,6 +137,8 @@ const save_configure = () => {
  */
 const load_configure = () => {
     // console.log("load_configure() begin");
+    let need_save = false;
+    //fixme: 項目ごとに
 
     const configure = JSON.parse(localStorage.getItem('configure'));
     // update page
@@ -161,7 +165,8 @@ const load_configure = () => {
     }
     else {
         // 初回は一度初期状態を保存する
-        save_configure();
+        console.log("require save");
+        need_save = true;
     }
 
     switch (configure?.app?.style_type) {
@@ -175,6 +180,7 @@ const load_configure = () => {
     }
 
     console.log(document.getElementById("load_count").value);
+    console.log(configure?.app?.load_count);
     switch (configure?.app?.load_count) {
         case "0":
             console.log("0");
@@ -189,6 +195,15 @@ const load_configure = () => {
             console.log("default or 1");
             document.getElementById("load_count").options[1].selected = true;
             break;
+    }
+    //fixme: switch-caseなしで1文でまとめられそう。未保存時とのif-elseで処理分け
+    if (!(configure?.app?.load_count)) {
+        console.log("require save");
+        need_save = true;
+    }
+    console.log(need_save);
+    if (need_save) {
+        save_configure();
     }
 
     return configure;
