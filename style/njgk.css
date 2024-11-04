@@ -41,7 +41,7 @@ hr {
     display: flex;
     justify-content: flex-end;
     cursor: pointer;
-    background-image: url('images/check-icon.svg');
+    background-image: url('../images/check-icon.svg');
     background-repeat: no-repeat;
     background-position: center;
     height: 20px;
@@ -63,7 +63,7 @@ hr {
     display: flex;
     justify-content: flex-end;
     cursor: pointer;
-    background-image: url('images/progress-icon-njgk.gif');
+    background-image: url('../images/progress-icon-njgk.gif');
     background-repeat: no-repeat;
     background-position: center;
     height: 20px;
