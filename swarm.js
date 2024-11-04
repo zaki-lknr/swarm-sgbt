@@ -562,6 +562,9 @@ const create_share = async (checkin) => {
         bsky.enableCorsProxyAtOgp(true);
         bsky.enableCorsProxyAtGetImage(false);
         bsky.setClientVia(app_name);
+        if (configure.bsky.bsky_refresh) {
+            bsky.setRefreshJwt(configure.bsky.bsky_refresh);
+        }
         for (const photo of checkin.photos.items) {
             // bsky.setImageUrl(checkin.photos.items[]);
             const photo_url = get_image_url(photo.width, 0, photo);
