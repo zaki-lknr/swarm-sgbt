@@ -8,6 +8,7 @@ import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 
 const app_name = "Swarm SGBT";
 const app_version = '0.9.0';
+const fetch_count = [15, 30, 45];
 
 /**
  * htmlロード時のイベントリスナ設定
@@ -93,7 +94,7 @@ const save_configure = () => {
     const view_image = document.getElementById("view_image").checked;
     const include_sns = document.getElementById("include_sns").checked;
     const edit_tweet = document.getElementById("edit_tweet").checked;
-    const load_count = document.getElementById("load_count").value;
+    const load_count = Number(document.getElementById("load_count").value);
 
     const styles = document.getElementsByName("window_style");
     let style_type;
@@ -182,15 +183,15 @@ const load_configure = () => {
     console.log(document.getElementById("load_count").value);
     console.log(configure?.app?.load_count);
     switch (configure?.app?.load_count) {
-        case "0":
+        case 0:
             console.log("0");
             document.getElementById("load_count").options[0].selected = true;
             break;
-        case "2":
+        case 2:
             console.log("2");
             document.getElementById("load_count").options[2].selected = true;
             break;
-        case "1":
+        case 1:
         default:
             console.log("default or 1");
             document.getElementById("load_count").options[1].selected = true;
