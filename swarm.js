@@ -75,6 +75,15 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /**
+ * 
+ * @param {Number} 設定インデックス
+ * @returns 読み込み件数
+ */
+const fetch_count = (index) => {
+    return [15, 30, 45][index];
+}
+
+/**
  * 設定保存
  */
 const save_configure = () => {
@@ -93,6 +102,7 @@ const save_configure = () => {
     const view_image = document.getElementById("view_image").checked;
     const include_sns = document.getElementById("include_sns").checked;
     const edit_tweet = document.getElementById("edit_tweet").checked;
+    const load_count = Number(document.getElementById("load_count").value);
 
     const styles = document.getElementsByName("window_style");
     let style_type;
@@ -111,7 +121,8 @@ const save_configure = () => {
             include_sns: include_sns,
             edit_tweet: edit_tweet,
             post_bsky: post_bsky,
-            style_type: style_type
+            style_type: style_type,
+            load_count: load_count
         },
         swarm: {
             oauth_token: input_token,
@@ -135,6 +146,8 @@ const save_configure = () => {
  */
 const load_configure = () => {
     // console.log("load_configure() begin");
+    let need_save = false;
+    //fixme: 項目ごとに
 
     const configure = JSON.parse(localStorage.getItem('configure'));
     // update page
@@ -161,7 +174,8 @@ const load_configure = () => {
     }
     else {
         // 初回は一度初期状態を保存する
-        save_configure();
+        // console.log("require save");
+        need_save = true;
     }
 
     switch (configure?.app?.style_type) {
@@ -174,6 +188,29 @@ const load_configure = () => {
             break;
     }
 
+    // console.log(document.getElementById("load_count").value);
+    // console.log(configure?.app?.load_count);
+    switch (configure?.app?.load_count) {
+        case 0:
+            document.getElementById("load_count").options[0].selected = true;
+            break;
+        case 2:
+            document.getElementById("load_count").options[2].selected = true;
+            break;
+        case 1:
+        default:
+            document.getElementById("load_count").options[1].selected = true;
+            break;
+    }
+    //fixme: switch-caseなしで1文でまとめられそう。未保存時とのif-elseで処理分け
+    if (!(configure?.app?.load_count)) {
+        // console.log("require save");
+        need_save = true;
+    }
+    if (need_save) {
+        save_configure();
+    }
+
     return configure;
 }
 
@@ -182,7 +219,8 @@ const load_configure = () => {
  */
 const reload_data = async() => {
     const configure = load_configure();
-    const url = 'https://api.foursquare.com/v2/users/self/checkins?v=20231010&limit=30&offset=0&oauth_token=' + configure.swarm.oauth_token;
+    const count = fetch_count(configure.app.load_count);
+    const url = 'https://api.foursquare.com/v2/users/self/checkins?v=20231010&limit=' + count + '&offset=0&oauth_token=' + configure.swarm.oauth_token;
     // console.log('url: ' + url);
     const headers = new Headers();
     headers.append('accept', 'application/json');
@@ -287,7 +325,7 @@ const load_data = () => {
         const param = new URLSearchParams(window.location.search);
         // console.log(param);
         const code = param.get('code');
-        console.log(code);
+        // console.log(code);
         const token = swarm_oauth2(code);
         return;
     }
@@ -315,12 +353,16 @@ const load_data = () => {
 
         const display = document.getElementById("checkin_list");
         let index = 0;
+        const max = fetch_count(configure.app.load_count);
         const today = new Date();   // 当日チェックインカウント判定用
         let today_count = 0;
         // console.log(today.toLocaleDateString());
         for (let checkin of checkin_data.response.checkins.items) {
             // console.log("checkin: " + checkin.venue.name);
             // console.log("createdAt: " + checkin.venue.createdAt);
+            if (index >= max) {
+                break;
+            }
 
             const component = document.createElement("div");
 
@@ -499,12 +541,12 @@ const create_share = async (checkin) => {
 
     const detail = await get_detail(checkin.id, configure);
     document.getElementById(checkin.id).value = detail.checkinShortUrl;
-    console.log(checkin);
+    // console.log(checkin);
 
     // const comment = document.getElementById(checkin.id + '_comment').textContent;
     const comment = create_share_string(detail, (include_account)? detail.venueInfo.twitter: null);
     const share_comment = comment + "\n" + detail.checkinShortUrl;
-    console.log(comment);
+    // console.log(comment);
     navigator.clipboard.writeText(share_comment);
     if (enable_tweet) {
         window.open('https://x.com/intent/tweet?url=' + detail.checkinShortUrl + '&text=' + encodeURIComponent(comment));
