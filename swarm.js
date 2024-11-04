@@ -96,6 +96,7 @@ const save_configure = () => {
     // bsky
     const bsky_id = document.getElementById("bsky_id").value;
     const bsky_pass = document.getElementById("bsky_pass").value;
+    const bsky_refresh = document.getElementById("bsky_refresh").value;
 
     // console.log("oauth_token: " + input_token);
     const post_bsky = document.getElementById("post_bsky").checked;
@@ -133,6 +134,7 @@ const save_configure = () => {
         bsky: {
             bsky_id: bsky_id,
             bsky_pass: bsky_pass,
+            bsky_refresh: bsky_refresh
         },
     }
     // console.log(configure);
@@ -165,6 +167,8 @@ const load_configure = () => {
         document.getElementById("bsky_id").value = configure?.bsky?.bsky_id;
     if (configure?.bsky?.bsky_pass)
         document.getElementById("bsky_pass").value = configure?.bsky?.bsky_pass;
+    if (configure?.bsky?.bsky_refresh)
+        document.getElementById("bsky_refresh").value = configure?.bsky?.bsky_refresh;
 
     if (configure?.app) {
         document.getElementById("view_image").checked = configure?.app?.view_image;
@@ -567,6 +571,10 @@ const create_share = async (checkin) => {
         try {
             set_progress('sending...');
             await bsky.post(share_comment);
+
+            // fixme: refreshトークンの保存
+            document.getElementById("bsky_refresh").value = bsky.getRereshJwt();
+            save_configure();
         }
         catch (e) {
             set_error(e);
