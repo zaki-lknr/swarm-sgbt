@@ -8,7 +8,6 @@ import {JpzBskyClient} from "./bsky-client/bsky-client.js";
 
 const app_name = "Swarm SGBT";
 const app_version = '0.9.0';
-const fetch_count = [15, 30, 45];
 
 /**
  * htmlロード時のイベントリスナ設定
@@ -74,6 +73,15 @@ document.addEventListener("DOMContentLoaded", () => {
     close_notify();
     input_changed();
 });
+
+/**
+ * 
+ * @param {Number} 設定インデックス
+ * @returns 読み込み件数
+ */
+const fetch_count = (index) => {
+    return [15, 30, 45][index];
+}
 
 /**
  * 設定保存
@@ -348,12 +356,16 @@ const load_data = () => {
 
         const display = document.getElementById("checkin_list");
         let index = 0;
+        const max = fetch_count(configure.app.load_count);
         const today = new Date();   // 当日チェックインカウント判定用
         let today_count = 0;
         // console.log(today.toLocaleDateString());
         for (let checkin of checkin_data.response.checkins.items) {
             // console.log("checkin: " + checkin.venue.name);
             // console.log("createdAt: " + checkin.venue.createdAt);
+            if (index >= max) {
+                break;
+            }
 
             const component = document.createElement("div");
 
