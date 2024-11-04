@@ -223,7 +223,8 @@ const load_configure = () => {
  */
 const reload_data = async() => {
     const configure = load_configure();
-    const url = 'https://api.foursquare.com/v2/users/self/checkins?v=20231010&limit=30&offset=0&oauth_token=' + configure.swarm.oauth_token;
+    const count = fetch_count(configure.app.load_count);
+    const url = 'https://api.foursquare.com/v2/users/self/checkins?v=20231010&limit=' + count + '&offset=0&oauth_token=' + configure.swarm.oauth_token;
     // console.log('url: ' + url);
     const headers = new Headers();
     headers.append('accept', 'application/json');
