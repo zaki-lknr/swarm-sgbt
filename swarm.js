@@ -123,7 +123,8 @@ const save_configure = () => {
             edit_tweet: edit_tweet,
             post_bsky: post_bsky,
             style_type: style_type,
-            load_count: load_count
+            load_count: load_count,
+            app_version: app_version,
         },
         swarm: {
             oauth_token: input_token,
