@@ -3,9 +3,9 @@
     <head>
         <meta charset="utf-8">
         <title>Swarm SGBT</title>
-        <script src="swarm.js?1025a" type="module"></script>
+        <script src="swarm.js?1104a" type="module"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link href="style-sgbt.css?1014e" rel="stylesheet" type="text/css" media="all" id="style"/>
+        <link href="style/sgbt.css?1104a" rel="stylesheet" type="text/css" media="all" id="style"/>
         <link rel="manifest" href="manifest-sgbt.json" id="manifest"/>
         <meta property="og:title" content="Swarm SGBT" />
         <meta property="og:description" content="SwarmチェックインのSNS共有をお手伝いします" />
@@ -17,12 +17,10 @@
     </head>
 
     <body id="body">
-        <!-- <h1 id="title">Swarm SGBT</h1> -->
         <header class="header">
             <h1 id="title">Swarm SGBT</h1>
             <nav class="header-nav">
                 <ul class="header-nav">
-                    <!-- <li class="nav-list">checkin</li> -->
                     <li class="nav-list"><img class="configure" src="images/config-icon.svg" /></li>
                 </ul>
             </nav>
@@ -60,6 +58,7 @@
                 <br/>
                 <label for="bsky_pass">Bluesky password</label>
                 <input type="password" id="bsky_pass" name="bsky_pass" placeholder="password"/>
+                <input type="hidden" id="bsky_refresh" name="bsky_refresh"/>
                 <div id="help">アプリパスワードは<a href="https://bsky.app/settings/app-passwords">公式サイトまたはアプリ</a>で作成してください。<br/>現在対応してるサーバーは https://bsky.social のみです。</div>
             </fieldset>
 
@@ -79,6 +78,13 @@
                 <legend>app configure</legend>
                 <input type="checkbox" id="view_image" name="view_image" checked/>
                 <label for="view_image">view image</label>
+                <br/>
+                load count: 
+                <select name="load_count" id="load_count">
+                    <option value="0">15</option>
+                    <option value="1">30</option>
+                    <option value="2">45</option>
+                </select>
                 <br/>
                 Style: 
                 <input type="radio" id="style_sgbt" name="window_style" value="sgbt" checked/>
