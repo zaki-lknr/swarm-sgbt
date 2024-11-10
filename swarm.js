@@ -470,7 +470,8 @@ const load_data = () => {
                     photo_checkbox.type = 'checkbox';
                     photo_checkbox.id = 'img_' + checkin.id; //fixme
                     photo_checkbox.name = 'img_' + checkin.id; //fixme
-                    photo_checkbox.checked = true; // todo: 可視設定を使う
+                    // console.log("photo visible: " + photos.visibility);  // 非表示は"friends"になる
+                    photo_checkbox.checked = (photos.visibility === "public");
                     photo_checkbox.className = 'imgchk';
 
                     const photo_checkbox_label = document.createElement("label");
