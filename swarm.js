@@ -463,14 +463,27 @@ const load_data = () => {
                     const photo_item = document.createElement("img");
                     photo_item.src = get_image_url(document.body.clientWidth, photo_count, photos);
                     photo_item.className = 'photo_view';
+
+                    const photo_block_in = document.createElement("div");
+
                     const photo_checkbox = document.createElement("input");
                     photo_checkbox.type = 'checkbox';
-                    photo_checkbox.id = 'img_' + checkin.id;
-                    photo_checkbox.name = 'img_' + checkin.id;
+                    photo_checkbox.id = 'img_' + checkin.id; //fixme
+                    photo_checkbox.name = 'img_' + checkin.id; //fixme
                     photo_checkbox.checked = true; // todo: 可視設定を使う
+                    photo_checkbox.className = 'imgchk';
+
+                    const photo_checkbox_label = document.createElement("label");
+                    photo_checkbox_label.htmlFor = 'img_' + checkin.id; //fixme
+                    photo_checkbox_label.className = 'imgchk_label';
+                    const photo_checkbox_span = document.createElement("span");
+                    photo_checkbox_span.className = 'imgchk_span';
+                    photo_checkbox_label.appendChild(photo_checkbox_span);
 
                     photo_block.appendChild(photo_item);
-                    photo_block.appendChild(photo_checkbox);
+                    photo_block_in.appendChild(photo_checkbox);
+                    photo_block_in.appendChild(photo_checkbox_label);
+                    photo_block.appendChild(photo_block_in);
                     if (preview_image) {
                         photo_view.appendChild(photo_block);
                     }
