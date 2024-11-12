@@ -468,14 +468,14 @@ const load_data = () => {
 
                     const photo_checkbox = document.createElement("input");
                     photo_checkbox.type = 'checkbox';
-                    photo_checkbox.id = 'img_' + checkin.id; //fixme
-                    photo_checkbox.name = 'img_' + checkin.id; //fixme
+                    photo_checkbox.id = photos.suffix;
+                    photo_checkbox.name = photos.suffix;
                     // console.log("photo visible: " + photos.visibility);  // 非表示は"friends"になる
                     photo_checkbox.checked = (photos.visibility === "public");
                     photo_checkbox.className = 'imgchk';
 
                     const photo_checkbox_label = document.createElement("label");
-                    photo_checkbox_label.htmlFor = 'img_' + checkin.id; //fixme
+                    photo_checkbox_label.htmlFor = photos.suffix;
                     photo_checkbox_label.className = 'imgchk_label';
                     const photo_checkbox_span = document.createElement("span");
                     photo_checkbox_span.className = 'imgchk_span';
@@ -594,9 +594,14 @@ const create_share = async (checkin) => {
             }
             for (const photo of checkin.photos.items) {
                 // bsky.setImageUrl(checkin.photos.items[]);
-                const photo_url = get_image_url(photo.width, 0, photo);
-                console.log(photo_url);
-                bsky.setImageUrl(photo_url);
+                if (document.getElementById(photo.suffix).checked) {
+                    // チェックのある画像のみ共有対象とする
+                    const photo_url = get_image_url(photo.width, 0, photo);
+                    console.log(photo_url);
+                    // console.log(photo.suffix);
+                    bsky.setImageUrl(photo_url);
+                }
+                else { console.log("not checked: " + photo.suffix) }
             }
             set_progress('sending...');
             await bsky.post(share_comment);
