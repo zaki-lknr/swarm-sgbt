@@ -405,6 +405,11 @@ const load_data = () => {
                 console.log(checkin_count);
             }
 
+            if (checkin_count[checkin.venue.id] > 1) {
+                venue_name.textContent += ' *' + checkin_count[checkin.venue.id];
+            }
+            //todo: ここだと2回目以降のみの表示になるので、一度リストアップ完了後に再設定が必要
+
             header_part.appendChild(checkin_datetime);
             const rest_button = document.createElement("button");
             rest_button.textContent = "share";
