@@ -405,11 +405,6 @@ const load_data = () => {
                 console.log(checkin_count);
             }
 
-            if (checkin_count[checkin.venue.id] > 1) {
-                venue_name.textContent += ' *' + checkin_count[checkin.venue.id];
-            }
-            //todo: ここだと2回目以降のみの表示になるので、一度リストアップ完了後に再設定が必要
-
             header_part.appendChild(checkin_datetime);
             const rest_button = document.createElement("button");
             rest_button.textContent = "share";
@@ -492,6 +487,18 @@ const load_data = () => {
         }
         const comment_view = document.getElementById("comment");
         comment_view.textContent = 'todays checkin: ' + today_count;
+
+        // 重複カウント表示処理
+        for (let checkin of checkin_data.response.checkins.items) {
+            if (checkin_count[checkin.venue.id] > 1) {
+                const datetime = new Date(checkin.createdAt * 1000);
+                if (datetime.toLocaleDateString() === today.toLocaleDateString()) {
+                    // 当日分のみ表示追加
+                    const venue_name = document.getElementById(checkin.id + '_comment');
+                    venue_name.textContent += ' *' + checkin_count[checkin.venue.id];
+                }
+            }
+        }
     }
     return true;
 }
