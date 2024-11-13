@@ -361,6 +361,7 @@ const load_data = () => {
         const max = fetch_count(configure.app.load_count);
         const today = new Date();   // 当日チェックインカウント判定用
         let today_count = 0;
+        const checkin_count = {};   // 当日の複数回チェックインカウント
         // console.log(today.toLocaleDateString());
         for (let checkin of checkin_data.response.checkins.items) {
             // console.log("checkin: " + checkin.venue.name);
@@ -393,6 +394,15 @@ const load_data = () => {
             checkin_datetime.textContent = '['+ (++index) + '] ' + datetime.toLocaleDateString() + ' ' + datetime.toLocaleTimeString();
             if (datetime.toLocaleDateString() === today.toLocaleDateString()) {
                 today_count++;
+
+                console.log(checkin.venue.id);
+                if (checkin_count[checkin.venue.id]) {
+                    checkin_count[checkin.venue.id] ++;
+                }
+                else {
+                    checkin_count[checkin.venue.id] = 1;
+                }
+                console.log(checkin_count);
             }
 
             header_part.appendChild(checkin_datetime);
