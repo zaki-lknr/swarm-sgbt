@@ -467,11 +467,36 @@ const load_data = () => {
             const photo_view = document.createElement("div");
             if (photo_count > 0) {
                 for (let photos of checkin.photos.items) {
+                    // img/checkboxオーバーラップ表示用のdiv
+                    const photo_block = document.createElement("div");
+                    photo_block.className = 'photo_block'
                     const photo_item = document.createElement("img");
                     photo_item.src = get_image_url(document.body.clientWidth, photo_count, photos);
                     photo_item.className = 'photo_view';
+
+                    const photo_block_in = document.createElement("div");
+
+                    const photo_checkbox = document.createElement("input");
+                    photo_checkbox.type = 'checkbox';
+                    photo_checkbox.id = photos.suffix;
+                    photo_checkbox.name = photos.suffix;
+                    // console.log("photo visible: " + photos.visibility);  // 非表示は"friends"になる
+                    photo_checkbox.checked = (photos.visibility === "public");
+                    photo_checkbox.className = 'imgchk';
+
+                    const photo_checkbox_label = document.createElement("label");
+                    photo_checkbox_label.htmlFor = photos.suffix;
+                    photo_checkbox_label.className = 'imgchk_label';
+                    const photo_checkbox_span = document.createElement("span");
+                    photo_checkbox_span.className = 'imgchk_span';
+                    photo_checkbox_label.appendChild(photo_checkbox_span);
+
+                    photo_block.appendChild(photo_item);
+                    photo_block_in.appendChild(photo_checkbox);
+                    photo_block_in.appendChild(photo_checkbox_label);
+                    photo_block.appendChild(photo_block_in);
                     if (preview_image) {
-                        photo_view.appendChild(photo_item);
+                        photo_view.appendChild(photo_block);
                     }
                 }
             }
@@ -591,9 +616,14 @@ const create_share = async (checkin) => {
             }
             for (const photo of checkin.photos.items) {
                 // bsky.setImageUrl(checkin.photos.items[]);
-                const photo_url = get_image_url(photo.width, 0, photo);
-                console.log(photo_url);
-                bsky.setImageUrl(photo_url);
+                if (document.getElementById(photo.suffix).checked) {
+                    // チェックのある画像のみ共有対象とする
+                    const photo_url = get_image_url(photo.width, 0, photo);
+                    console.log(photo_url);
+                    // console.log(photo.suffix);
+                    bsky.setImageUrl(photo_url);
+                }
+                else { console.log("not checked: " + photo.suffix) }
             }
             set_progress('sending...');
             await bsky.post(share_comment);

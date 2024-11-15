@@ -1,4 +1,6 @@
 @import url(show-header-scroll-up.css);
+@import url(image_checkbox.css);
+
 body {
     font-family: system-ui;
     margin: 80px 0px 0px 0px;
@@ -74,4 +76,16 @@ div#help {
 
 .photo_view {
     margin: 1px 1px 1px 1px;
+}
+.photo_block {
+    position: relative;
+    width: auto;
+    height: auto;
+    display: inline-block;
+}
+.photo_block div {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    color: #00f;
 }

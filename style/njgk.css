@@ -1,4 +1,11 @@
 @import url(common.css);
+
+:root {
+    --line-color: #e71f8f;
+    --check-color: #ffffff;
+    --background-color: #F39728;
+}
+
 hr {
     background-color: #e71f8f;
     border: none;
