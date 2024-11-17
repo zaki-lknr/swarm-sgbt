@@ -4,10 +4,10 @@
  * @see https://github.com/zaki-lknr/swarm-sgbt
  */
 
-import {JpzBskyClient} from "./bsky-client/bsky-client.js";
+import {JpzBskyClient} from "./bsky-client/bsky-client.js?0.5.0";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.9.1';
+const app_version = '0.10.0';
 
 /**
  * htmlロード時のイベントリスナ設定
@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
  * @param {Number} 設定インデックス
  * @returns 読み込み件数
  */
-const fetch_count = (index) => {
+const get_count = (index) => {
     return [15, 30, 45][index];
 }
 
@@ -104,6 +104,7 @@ const save_configure = () => {
     const include_sns = document.getElementById("include_sns").checked;
     const edit_tweet = document.getElementById("edit_tweet").checked;
     const load_count = Number(document.getElementById("load_count").value);
+    const dev_mode = document.getElementById("dev_mode").checked;
 
     const styles = document.getElementsByName("window_style");
     let style_type;
@@ -125,6 +126,7 @@ const save_configure = () => {
             style_type: style_type,
             load_count: load_count,
             app_version: app_version,
+            dev_mode: dev_mode,
         },
         swarm: {
             oauth_token: input_token,
@@ -176,6 +178,7 @@ const load_configure = () => {
         document.getElementById("post_bsky").checked = configure?.app?.post_bsky;
         document.getElementById("include_sns").checked = configure?.app?.include_sns;
         document.getElementById("edit_tweet").checked = configure?.app?.edit_tweet;
+        document.getElementById("dev_mode").checked = configure?.app?.dev_mode;
     }
     else {
         // 初回は一度初期状態を保存する
@@ -224,12 +227,15 @@ const load_configure = () => {
  */
 const reload_data = async() => {
     const configure = load_configure();
-    const count = fetch_count(configure.app.load_count);
+    const count = get_count(configure.app.load_count);
     const url = 'https://api.foursquare.com/v2/users/self/checkins?v=20231010&limit=' + count + '&offset=0&oauth_token=' + configure.swarm.oauth_token;
     // console.log('url: ' + url);
     const headers = new Headers();
     headers.append('accept', 'application/json');
 
+    if (configure.app.dev_mode) {
+        set_progress('(swarm) /v2/users/self/checkins ...');
+    }
     const res = await fetch(url, { headers: headers });
     if (!res.ok) {
         set_error('Failed: Get User Checkins: ' + await res.text());
@@ -240,6 +246,10 @@ const reload_data = async() => {
     // console.log('body: ' + body);
 
     localStorage.setItem('rest_response', body);
+
+    if (configure.app.dev_mode) {
+        close_notify();
+    }
 
     clear_data();
     load_data();
@@ -358,7 +368,7 @@ const load_data = () => {
 
         const display = document.getElementById("checkin_list");
         let index = 0;
-        const max = fetch_count(configure.app.load_count);
+        const max = get_count(configure.app.load_count);
         const today = new Date();   // 当日チェックインカウント判定用
         let today_count = 0;
         const checkin_count = {};   // 当日の複数回チェックインカウント
@@ -395,14 +405,14 @@ const load_data = () => {
             if (datetime.toLocaleDateString() === today.toLocaleDateString()) {
                 today_count++;
 
-                console.log(checkin.venue.id);
+                // console.log(checkin.venue.id);
                 if (checkin_count[checkin.venue.id]) {
                     checkin_count[checkin.venue.id] ++;
                 }
                 else {
                     checkin_count[checkin.venue.id] = 1;
                 }
-                console.log(checkin_count);
+                // console.log(checkin_count);
             }
 
             header_part.appendChild(checkin_datetime);
@@ -614,6 +624,9 @@ const create_share = async (checkin) => {
             if (configure.bsky.bsky_refresh) {
                 bsky.setRefreshJwt(configure.bsky.bsky_refresh);
             }
+            if (configure.app.dev_mode) {
+                bsky.setProgressCallback(bsky_progress_callback);
+            }
             for (const photo of checkin.photos.items) {
                 // bsky.setImageUrl(checkin.photos.items[]);
                 if (document.getElementById(photo.suffix).checked) {
@@ -666,7 +679,11 @@ const get_detail = async (checkin_id, configure) => {
                 const url = 'https://api.foursquare.com/v2/checkins/' + checkin_id + '?v=20231010&oauth_token=' + configure.swarm.oauth_token;
                 const headers = new Headers();
                 headers.append('accept', 'application/json');
-            
+
+                if (configure.app.dev_mode) {
+                    set_progress('(swarm) /v2/checkins ...');
+                }
+
                 const res = await fetch(url, { headers: headers });
                 if (!res.ok) {
                     set_error('Failed: Get Check-in Details: ' + await res.text());
@@ -674,7 +691,11 @@ const get_detail = async (checkin_id, configure) => {
                 }
                 const response = await res.json();
                 // console.log(response.response.checkin.checkinShortUrl);
-            
+
+                if (configure.app.dev_mode) {
+                    close_notify();
+                }
+
                 checkin.checkinShortUrl = response.response.checkin.checkinShortUrl;
             }
             if ('venueInfo' in checkin) {
@@ -685,11 +706,17 @@ const get_detail = async (checkin_id, configure) => {
                 if (configure.swarm.api_key.length > 0) {
                     // 取得
                     console.log("get place info");
+                    if (configure.app.dev_mode) {
+                        set_progress('(swarm) /v3/places ...');
+                    }
                     const url = 'https://api.foursquare.com/v3/places/' + checkin.venue.id + '?fields=social_media';
                     const headers = new Headers();
                     headers.append('accept', 'application/json');
                     headers.append('Authorization', configure.swarm.api_key);
                     const res = await fetch(url, { headers: headers });
+                    if (configure.app.dev_mode) {
+                        close_notify();
+                    }
                     if (res.status === 404) {
                         // venueの詳細情報が無い(原因不明)
                         console.log(await res.text());
@@ -772,13 +799,18 @@ const copy_text = () => {
  * @param {string} エラーメッセージ(省略時はクリア)
  */
 const set_error = (error = null) => {
-    const error_notify = document.getElementById('error_notify');
-    // console.log("set_error(start)");
-    document.getElementById('error_message').textContent = error;
-    error_notify.className = 'error_notify';
-    error_notify.disabled = false;
-    error_notify.style.display = 'flex';
-    document.getElementById('error_icon').className = 'error_icon';
+    if (error) {
+        const error_notify = document.getElementById('error_notify');
+        // console.log("set_error(start)");
+        document.getElementById('error_message').textContent = error;
+        error_notify.className = 'error_notify';
+        error_notify.disabled = false;
+        error_notify.style.display = 'flex';
+        document.getElementById('error_icon').className = 'error_icon';
+    }
+    else {
+        close_notify(false);
+    }
 }
 
 /**
@@ -786,14 +818,19 @@ const set_error = (error = null) => {
  * @param {string} 進捗用メッセージ(省略時はクリア)
  */
 const set_progress = (msg = null) => {
-    const error_notify = document.getElementById('error_notify');
-    // console.log("set_progress(start)");
-    const elem = document.getElementById('error_message');
-    elem.textContent = msg;
-    error_notify.className = 'progress_notify';
-    error_notify.disabled = true;
-    error_notify.style.display = 'flex';
-    document.getElementById('error_icon').className = 'progress_icon';
+    if (msg) {
+        const error_notify = document.getElementById('error_notify');
+        // console.log("set_progress(start)");
+        const elem = document.getElementById('error_message');
+        elem.textContent = msg;
+        error_notify.className = 'progress_notify';
+        error_notify.disabled = true;
+        error_notify.style.display = 'flex';
+        document.getElementById('error_icon').className = 'progress_icon';
+    }
+    else {
+        close_notify(false);
+    }
 }
 
 
@@ -876,4 +913,12 @@ const share_app = (key) => {
             navigator.clipboard.writeText(share_comment);
             break;
     }
+}
+
+const bsky_progress_callback = (message) => {
+    // console.log(message);
+    if (message) {
+        message = "(bsky) " + message + "...";
+    }
+    set_progress(message);
 }
