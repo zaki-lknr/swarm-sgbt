@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
  * @param {Number} 設定インデックス
  * @returns 読み込み件数
  */
-const fetch_count = (index) => {
+const get_count = (index) => {
     return [15, 30, 45][index];
 }
 
@@ -227,7 +227,7 @@ const load_configure = () => {
  */
 const reload_data = async() => {
     const configure = load_configure();
-    const count = fetch_count(configure.app.load_count);
+    const count = get_count(configure.app.load_count);
     const url = 'https://api.foursquare.com/v2/users/self/checkins?v=20231010&limit=' + count + '&offset=0&oauth_token=' + configure.swarm.oauth_token;
     // console.log('url: ' + url);
     const headers = new Headers();
@@ -361,7 +361,7 @@ const load_data = () => {
 
         const display = document.getElementById("checkin_list");
         let index = 0;
-        const max = fetch_count(configure.app.load_count);
+        const max = get_count(configure.app.load_count);
         const today = new Date();   // 当日チェックインカウント判定用
         let today_count = 0;
         const checkin_count = {};   // 当日の複数回チェックインカウント
