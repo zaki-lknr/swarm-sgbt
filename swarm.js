@@ -405,14 +405,14 @@ const load_data = () => {
             if (datetime.toLocaleDateString() === today.toLocaleDateString()) {
                 today_count++;
 
-                console.log(checkin.venue.id);
+                // console.log(checkin.venue.id);
                 if (checkin_count[checkin.venue.id]) {
                     checkin_count[checkin.venue.id] ++;
                 }
                 else {
                     checkin_count[checkin.venue.id] = 1;
                 }
-                console.log(checkin_count);
+                // console.log(checkin_count);
             }
 
             header_part.appendChild(checkin_datetime);
@@ -916,7 +916,7 @@ const share_app = (key) => {
 }
 
 const bsky_progress_callback = (message) => {
-    console.log(message);
+    // console.log(message);
     if (message) {
         message = "(bsky) " + message + "...";
     }
