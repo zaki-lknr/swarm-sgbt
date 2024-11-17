@@ -617,6 +617,9 @@ const create_share = async (checkin) => {
             if (configure.bsky.bsky_refresh) {
                 bsky.setRefreshJwt(configure.bsky.bsky_refresh);
             }
+            if (configure.app.dev_mode) {
+                bsky.setProgressCallback(bsky_progress_callback);
+            }
             for (const photo of checkin.photos.items) {
                 // bsky.setImageUrl(checkin.photos.items[]);
                 if (document.getElementById(photo.suffix).checked) {
@@ -879,4 +882,12 @@ const share_app = (key) => {
             navigator.clipboard.writeText(share_comment);
             break;
     }
+}
+
+const bsky_progress_callback = (message) => {
+    console.log(message);
+    if (message) {
+        message = "(bsky) " + message + "...";
+    }
+    set_progress(message);
 }
