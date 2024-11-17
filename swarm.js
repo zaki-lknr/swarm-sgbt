@@ -233,6 +233,9 @@ const reload_data = async() => {
     const headers = new Headers();
     headers.append('accept', 'application/json');
 
+    if (configure.app.dev_mode) {
+        set_progress('(swarm) /v2/users/self/checkins ...');
+    }
     const res = await fetch(url, { headers: headers });
     if (!res.ok) {
         set_error('Failed: Get User Checkins: ' + await res.text());
@@ -243,6 +246,10 @@ const reload_data = async() => {
     // console.log('body: ' + body);
 
     localStorage.setItem('rest_response', body);
+
+    if (configure.app.dev_mode) {
+        close_notify();
+    }
 
     clear_data();
     load_data();
@@ -672,7 +679,11 @@ const get_detail = async (checkin_id, configure) => {
                 const url = 'https://api.foursquare.com/v2/checkins/' + checkin_id + '?v=20231010&oauth_token=' + configure.swarm.oauth_token;
                 const headers = new Headers();
                 headers.append('accept', 'application/json');
-            
+
+                if (configure.app.dev_mode) {
+                    set_progress('(swarm) /v2/checkins ...');
+                }
+
                 const res = await fetch(url, { headers: headers });
                 if (!res.ok) {
                     set_error('Failed: Get Check-in Details: ' + await res.text());
@@ -680,7 +691,11 @@ const get_detail = async (checkin_id, configure) => {
                 }
                 const response = await res.json();
                 // console.log(response.response.checkin.checkinShortUrl);
-            
+
+                if (configure.app.dev_mode) {
+                    close_notify();
+                }
+
                 checkin.checkinShortUrl = response.response.checkin.checkinShortUrl;
             }
             if ('venueInfo' in checkin) {
@@ -691,11 +706,17 @@ const get_detail = async (checkin_id, configure) => {
                 if (configure.swarm.api_key.length > 0) {
                     // 取得
                     console.log("get place info");
+                    if (configure.app.dev_mode) {
+                        set_progress('(swarm) /v3/places ...');
+                    }
                     const url = 'https://api.foursquare.com/v3/places/' + checkin.venue.id + '?fields=social_media';
                     const headers = new Headers();
                     headers.append('accept', 'application/json');
                     headers.append('Authorization', configure.swarm.api_key);
                     const res = await fetch(url, { headers: headers });
+                    if (configure.app.dev_mode) {
+                        close_notify();
+                    }
                     if (res.status === 404) {
                         // venueの詳細情報が無い(原因不明)
                         console.log(await res.text());
