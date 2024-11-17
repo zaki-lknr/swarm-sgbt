@@ -778,13 +778,18 @@ const copy_text = () => {
  * @param {string} エラーメッセージ(省略時はクリア)
  */
 const set_error = (error = null) => {
-    const error_notify = document.getElementById('error_notify');
-    // console.log("set_error(start)");
-    document.getElementById('error_message').textContent = error;
-    error_notify.className = 'error_notify';
-    error_notify.disabled = false;
-    error_notify.style.display = 'flex';
-    document.getElementById('error_icon').className = 'error_icon';
+    if (error) {
+        const error_notify = document.getElementById('error_notify');
+        // console.log("set_error(start)");
+        document.getElementById('error_message').textContent = error;
+        error_notify.className = 'error_notify';
+        error_notify.disabled = false;
+        error_notify.style.display = 'flex';
+        document.getElementById('error_icon').className = 'error_icon';
+    }
+    else {
+        close_notify(false);
+    }
 }
 
 /**
@@ -792,14 +797,19 @@ const set_error = (error = null) => {
  * @param {string} 進捗用メッセージ(省略時はクリア)
  */
 const set_progress = (msg = null) => {
-    const error_notify = document.getElementById('error_notify');
-    // console.log("set_progress(start)");
-    const elem = document.getElementById('error_message');
-    elem.textContent = msg;
-    error_notify.className = 'progress_notify';
-    error_notify.disabled = true;
-    error_notify.style.display = 'flex';
-    document.getElementById('error_icon').className = 'progress_icon';
+    if (msg) {
+        const error_notify = document.getElementById('error_notify');
+        // console.log("set_progress(start)");
+        const elem = document.getElementById('error_message');
+        elem.textContent = msg;
+        error_notify.className = 'progress_notify';
+        error_notify.disabled = true;
+        error_notify.style.display = 'flex';
+        document.getElementById('error_icon').className = 'progress_icon';
+    }
+    else {
+        close_notify(false);
+    }
 }
 
 
