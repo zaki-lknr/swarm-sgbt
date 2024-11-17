@@ -4,10 +4,10 @@
  * @see https://github.com/zaki-lknr/swarm-sgbt
  */
 
-import {JpzBskyClient} from "./bsky-client/bsky-client.js";
+import {JpzBskyClient} from "./bsky-client/bsky-client.js?0.5.0";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.9.1';
+const app_version = '0.10.0';
 
 /**
  * htmlロード時のイベントリスナ設定
