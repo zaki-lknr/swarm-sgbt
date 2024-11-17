@@ -104,6 +104,7 @@ const save_configure = () => {
     const include_sns = document.getElementById("include_sns").checked;
     const edit_tweet = document.getElementById("edit_tweet").checked;
     const load_count = Number(document.getElementById("load_count").value);
+    const dev_mode = document.getElementById("dev_mode").checked;
 
     const styles = document.getElementsByName("window_style");
     let style_type;
@@ -125,6 +126,7 @@ const save_configure = () => {
             style_type: style_type,
             load_count: load_count,
             app_version: app_version,
+            dev_mode: dev_mode,
         },
         swarm: {
             oauth_token: input_token,
@@ -176,6 +178,7 @@ const load_configure = () => {
         document.getElementById("post_bsky").checked = configure?.app?.post_bsky;
         document.getElementById("include_sns").checked = configure?.app?.include_sns;
         document.getElementById("edit_tweet").checked = configure?.app?.edit_tweet;
+        document.getElementById("dev_mode").checked = configure?.app?.dev_mode;
     }
     else {
         // 初回は一度初期状態を保存する
