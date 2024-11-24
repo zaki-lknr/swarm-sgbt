@@ -4,10 +4,10 @@
  * @see https://github.com/zaki-lknr/swarm-sgbt
  */
 
-import {JpzBskyClient} from "./bsky-client/bsky-client.js?0.5.0";
+import {JpzBskyClient} from "./bsky-client/bsky-client.js?0.6.0";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.10.0';
+const app_version = '0.11.0';
 
 /**
  * htmlロード時のイベントリスナ設定
@@ -97,6 +97,7 @@ const save_configure = () => {
     const bsky_id = document.getElementById("bsky_id").value;
     const bsky_pass = document.getElementById("bsky_pass").value;
     const bsky_refresh = document.getElementById("bsky_refresh").value;
+    const bsky_server = document.getElementById("bsky_server").value;
 
     // console.log("oauth_token: " + input_token);
     const post_bsky = document.getElementById("post_bsky").checked;
@@ -137,7 +138,8 @@ const save_configure = () => {
         bsky: {
             bsky_id: bsky_id,
             bsky_pass: bsky_pass,
-            bsky_refresh: bsky_refresh
+            bsky_refresh: bsky_refresh,
+            bsky_server: bsky_server,
         },
     }
     // console.log(configure);
@@ -172,6 +174,8 @@ const load_configure = () => {
         document.getElementById("bsky_pass").value = configure?.bsky?.bsky_pass;
     if (configure?.bsky?.bsky_refresh)
         document.getElementById("bsky_refresh").value = configure?.bsky?.bsky_refresh;
+    if (configure?.bsky?.bsky_server)
+        document.getElementById("bsky_server").value = configure?.bsky?.bsky_server;
 
     if (configure?.app) {
         document.getElementById("view_image").checked = configure?.app?.view_image;
@@ -616,7 +620,7 @@ const create_share = async (checkin) => {
 
     if (post_bsky) {
         set_progress('sending...');
-        const bsky = new JpzBskyClient(configure.bsky.bsky_id, configure.bsky.bsky_pass);
+        const bsky = new JpzBskyClient(configure.bsky.bsky_id, configure.bsky.bsky_pass, configure.bsky.bsky_server);
         try {
             bsky.enableCorsProxyAtOgp(true);
             bsky.enableCorsProxyAtGetImage(false);
