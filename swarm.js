@@ -719,9 +719,6 @@ const get_detail = async (checkin_id, configure) => {
                     headers.append('Authorization', configure.swarm.api_key);
                     try {
                         const res = await fetch(url, { headers: headers });
-                        if (configure.app.dev_mode) {
-                            close_notify();
-                        }
                         if (res.status === 404) {
                             // venueの詳細情報が無い(原因不明)
                             console.log(await res.text());
@@ -740,7 +737,7 @@ const get_detail = async (checkin_id, configure) => {
                             // error
                             // console.log("err");
                             // console.log("etc error: " + await res.text());
-                            set_error('Failed: Get Place Details: ' + await res.text());
+                            // set_error('Failed: Get Place Details: ' + await res.text());
                             // エラー表示するが続行不可能ではないので表示のみ
                             //// ここに来る場合text()が返ってこないので動作しない、が全体の処理としてエラーは無視するため影響なし
                             checkin.venueInfo = {};
@@ -753,6 +750,9 @@ const get_detail = async (checkin_id, configure) => {
                 }
                 else {
                     checkin.venueInfo = {};
+                }
+                if (configure.app.dev_mode) {
+                    close_notify();
                 }
             }
             else {
