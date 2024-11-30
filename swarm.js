@@ -742,6 +742,7 @@ const get_detail = async (checkin_id, configure) => {
                             // console.log("etc error: " + await res.text());
                             set_error('Failed: Get Place Details: ' + await res.text());
                             // エラー表示するが続行不可能ではないので表示のみ
+                            //// ここに来る場合text()が返ってこないので動作しない、が全体の処理としてエラーは無視するため影響なし
                             checkin.venueInfo = {};
                         }
                     }
