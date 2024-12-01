@@ -7,7 +7,7 @@
 import {JpzBskyClient} from "./bsky-client/bsky-client.js?0.6.0";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.11.0';
+const app_version = '0.11.1';
 
 /**
  * htmlロード時のイベントリスナ設定
@@ -717,33 +717,42 @@ const get_detail = async (checkin_id, configure) => {
                     const headers = new Headers();
                     headers.append('accept', 'application/json');
                     headers.append('Authorization', configure.swarm.api_key);
-                    const res = await fetch(url, { headers: headers });
-                    if (configure.app.dev_mode) {
-                        close_notify();
-                    }
-                    if (res.status === 404) {
-                        // venueの詳細情報が無い(原因不明)
-                        console.log(await res.text());
-                        checkin.venueInfo = {};
-                        // 台場交差点(id:4bee05ae4daaa593c7a88f61)
-                        // 台場2丁目バス停(id:4d397ec6beb7b1f72fbedf71)
-                        // …など
-                    }
-                    else if (res.status === 200) {
-                        const response = await res.json();
-                        console.log(response.social_media.twitter);
+                    try {
+                        const res = await fetch(url, { headers: headers });
+                        if (res.status === 404) {
+                            // venueの詳細情報が無い(原因不明)
+                            console.log(await res.text());
+                            checkin.venueInfo = {};
+                            // 台場交差点(id:4bee05ae4daaa593c7a88f61)
+                            // 台場2丁目バス停(id:4d397ec6beb7b1f72fbedf71)
+                            // …など
+                        }
+                        else if (res.status === 200) {
+                            const response = await res.json();
+                            console.log(response.social_media.twitter);
 
-                        checkin.venueInfo = {twitter: response.social_media.twitter};
+                            checkin.venueInfo = {twitter: response.social_media.twitter};
+                        }
+                        else {
+                            // error
+                            // console.log("err");
+                            // console.log("etc error: " + await res.text());
+                            // set_error('Failed: Get Place Details: ' + await res.text());
+                            // エラー表示するが続行不可能ではないので表示のみ
+                            //// ここに来る場合text()が返ってこないので動作しない、が全体の処理としてエラーは無視するため影響なし
+                            checkin.venueInfo = {};
+                        }
                     }
-                    else {
-                        // error
-                        set_error('Failed: Get Place Details: ' + await res.text());
-                        // エラー表示するが続行不可能ではないので表示のみ
+                    catch(e) {
+                        console.log(e);
                         checkin.venueInfo = {};
                     }
                 }
                 else {
                     checkin.venueInfo = {};
+                }
+                if (configure.app.dev_mode) {
+                    close_notify();
                 }
             }
             else {
@@ -824,7 +833,7 @@ const set_error = (error = null) => {
 const set_progress = (msg = null) => {
     if (msg) {
         const error_notify = document.getElementById('error_notify');
-        // console.log("set_progress(start)");
+        // console.log("set_progress(start) / " + msg);
         const elem = document.getElementById('error_message');
         elem.textContent = msg;
         error_notify.className = 'progress_notify';
