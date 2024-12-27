@@ -4,10 +4,10 @@
  * @see https://github.com/zaki-lknr/swarm-sgbt
  */
 
-import {JpzBskyClient} from "./bsky-client/bsky-client.js?0.6.0";
+import {JpzBskyClient} from "./bsky-client/bsky-client.js?0.6.1";
 
 const app_name = "Swarm SGBT";
-const app_version = '0.11.1';
+const app_version = '0.11.2';
 
 /**
  * htmlロード時のイベントリスナ設定
@@ -290,7 +290,7 @@ const swarm_oauth2 = async (code) => {
     const redirect_url = location.href.replace(/\?.*/, '');
     const url = 'https://foursquare.com/oauth2/access_token?client_id=' + client_id + '&client_secret=' + client_secret +'&grant_type=authorization_code&redirect_uri=' + redirect_url + '&code=' + code;
     // console.log("access to: " + url);
-    const res = await fetch('https://corsproxy.io/?' + encodeURIComponent(url));
+    const res = await fetch('https://corsproxy.io/?url=' + encodeURIComponent(url));
     if (!res.ok) {
         set_error('Failed: Foursquare OAuth2: ' + await res.text());
         return;
@@ -340,13 +340,16 @@ const load_data = () => {
     document.getElementById('title').textContent = app_name + ' ver.' + app_version + ' / jpz-bsky:' + JpzBskyClient.getVersion();
 
     // oauth?
-    if (window.location.search.length > 0) { // fixme
+    if (window.location.search.length > 0) {
         const param = new URLSearchParams(window.location.search);
         // console.log(param);
         const code = param.get('code');
         // console.log(code);
-        const token = swarm_oauth2(code);
-        return;
+        if (code) {
+            swarm_oauth2(code);
+            return;
+        }
+        // code以外は無視して通常処理
     }
 
     // preview?
