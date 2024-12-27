@@ -380,6 +380,7 @@ const load_data = () => {
         let today_count = 0;
         const checkin_count = {};   // 当日の複数回チェックインカウント
         // console.log(today.toLocaleDateString());
+        let hour24 = 0; // 24時間以内のカウント
         for (let checkin of checkin_data.response.checkins.items) {
             // console.log("checkin: " + checkin.venue.name);
             // console.log("createdAt: " + checkin.venue.createdAt);
@@ -420,6 +421,10 @@ const load_data = () => {
                     checkin_count[checkin.venue.id] = 1;
                 }
                 // console.log(checkin_count);
+            }
+            // 24 hours
+            if (((today - datetime)/1000) < (24*60*60)) {
+                hour24++;
             }
 
             header_part.appendChild(checkin_datetime);
@@ -541,6 +546,7 @@ const load_data = () => {
                 }
             }
         }
+        comment_view.textContent = 'todays checkin: ' + today_count + " / 24hour: " + hour24;
     }
     return true;
 }
