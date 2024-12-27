@@ -340,13 +340,16 @@ const load_data = () => {
     document.getElementById('title').textContent = app_name + ' ver.' + app_version + ' / jpz-bsky:' + JpzBskyClient.getVersion();
 
     // oauth?
-    if (window.location.search.length > 0) { // fixme
+    if (window.location.search.length > 0) {
         const param = new URLSearchParams(window.location.search);
         // console.log(param);
         const code = param.get('code');
         // console.log(code);
-        const token = swarm_oauth2(code);
-        return;
+        if (code) {
+            swarm_oauth2(code);
+            return;
+        }
+        // code以外は無視して通常処理
     }
 
     // preview?
