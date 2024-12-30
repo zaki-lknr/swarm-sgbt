@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
  * @returns 読み込み件数
  */
 const get_count = (index) => {
-    return [15, 30, 45][index];
+    return [15, 30, 45, 60][index];
 }
 
 /**
