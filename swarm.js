@@ -533,7 +533,7 @@ const load_data = () => {
             display.appendChild(component);
         }
         const comment_view = document.getElementById("comment");
-        comment_view.textContent = 'todays checkin: ' + today_count;
+        comment_view.textContent = 'todays checkin: ' + today_count + " / 24hour: " + hour24;
 
         // 重複カウント表示処理
         for (let checkin of checkin_data.response.checkins.items) {
@@ -546,7 +546,6 @@ const load_data = () => {
                 }
             }
         }
-        comment_view.textContent = 'todays checkin: ' + today_count + " / 24hour: " + hour24;
     }
     return true;
 }
