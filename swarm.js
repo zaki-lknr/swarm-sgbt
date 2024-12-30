@@ -532,17 +532,20 @@ const load_data = () => {
             component.appendChild(photo_view);
             display.appendChild(component);
         }
-        const comment_view = document.getElementById("comment");
-        comment_view.textContent = 'todays checkin: ' + today_count + " / 24hour: " + hour24;
 
-        // 重複カウント表示処理
-        for (let checkin of checkin_data.response.checkins.items) {
-            if (checkin_count[checkin.venue.id] > 1) {
-                const datetime = new Date(checkin.createdAt * 1000);
-                if (datetime.toLocaleDateString() === today.toLocaleDateString()) {
-                    // 当日分のみ表示追加
-                    const venue_name = document.getElementById(checkin.id + '_comment');
-                    venue_name.textContent += ' *' + checkin_count[checkin.venue.id];
+        if (configure.app.dev_mode) {
+            const comment_view = document.getElementById("comment");
+            comment_view.textContent = 'todays checkin: ' + today_count + " / 24hour: " + hour24;
+
+            // 重複カウント表示処理
+            for (let checkin of checkin_data.response.checkins.items) {
+                if (checkin_count[checkin.venue.id] > 1) {
+                    const datetime = new Date(checkin.createdAt * 1000);
+                    if (datetime.toLocaleDateString() === today.toLocaleDateString()) {
+                        // 当日分のみ表示追加
+                        const venue_name = document.getElementById(checkin.id + '_comment');
+                        venue_name.textContent += ' *' + checkin_count[checkin.venue.id];
+                    }
                 }
             }
         }
