@@ -209,6 +209,9 @@ const load_configure = () => {
         case 2:
             document.getElementById("load_count").options[2].selected = true;
             break;
+        case 3:
+            document.getElementById("load_count").options[3].selected = true;
+            break;
         case 1:
         default:
             document.getElementById("load_count").options[1].selected = true;
