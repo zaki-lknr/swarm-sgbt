@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
  * @returns 読み込み件数
  */
 const get_count = (index) => {
-    return [15, 30, 45][index];
+    return [15, 30, 45, 60][index];
 }
 
 /**
@@ -208,6 +208,9 @@ const load_configure = () => {
             break;
         case 2:
             document.getElementById("load_count").options[2].selected = true;
+            break;
+        case 3:
+            document.getElementById("load_count").options[3].selected = true;
             break;
         case 1:
         default:
@@ -380,6 +383,7 @@ const load_data = () => {
         let today_count = 0;
         const checkin_count = {};   // 当日の複数回チェックインカウント
         // console.log(today.toLocaleDateString());
+        let hour24 = 0; // 24時間以内のカウント
         for (let checkin of checkin_data.response.checkins.items) {
             // console.log("checkin: " + checkin.venue.name);
             // console.log("createdAt: " + checkin.venue.createdAt);
@@ -420,6 +424,10 @@ const load_data = () => {
                     checkin_count[checkin.venue.id] = 1;
                 }
                 // console.log(checkin_count);
+            }
+            // 24 hours
+            if (((today - datetime)/1000) < (24*60*60)) {
+                hour24++;
             }
 
             header_part.appendChild(checkin_datetime);
@@ -527,17 +535,20 @@ const load_data = () => {
             component.appendChild(photo_view);
             display.appendChild(component);
         }
-        const comment_view = document.getElementById("comment");
-        comment_view.textContent = 'todays checkin: ' + today_count;
 
-        // 重複カウント表示処理
-        for (let checkin of checkin_data.response.checkins.items) {
-            if (checkin_count[checkin.venue.id] > 1) {
-                const datetime = new Date(checkin.createdAt * 1000);
-                if (datetime.toLocaleDateString() === today.toLocaleDateString()) {
-                    // 当日分のみ表示追加
-                    const venue_name = document.getElementById(checkin.id + '_comment');
-                    venue_name.textContent += ' *' + checkin_count[checkin.venue.id];
+        if (configure.app.dev_mode) {
+            const comment_view = document.getElementById("comment");
+            comment_view.textContent = 'todays checkin: ' + today_count + " / 24hour: " + hour24;
+
+            // 重複カウント表示処理
+            for (let checkin of checkin_data.response.checkins.items) {
+                if (checkin_count[checkin.venue.id] > 1) {
+                    const datetime = new Date(checkin.createdAt * 1000);
+                    if (datetime.toLocaleDateString() === today.toLocaleDateString()) {
+                        // 当日分のみ表示追加
+                        const venue_name = document.getElementById(checkin.id + '_comment');
+                        venue_name.textContent += ' *' + checkin_count[checkin.venue.id];
+                    }
                 }
             }
         }
