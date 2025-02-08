@@ -61,6 +61,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // console.log("copy");
         share_app("copy");
     });
+    document.getElementsByClassName('header')[0].addEventListener('click', ()=> {
+        scroll_to_top();
+    });
 
     switch_app_style();
     const authenticated = load_data();
@@ -948,4 +951,11 @@ const bsky_progress_callback = (message) => {
         message = "(bsky) " + message + "...";
     }
     set_progress(message);
+}
+
+const scroll_to_top = () => {
+    window.scroll({
+        top: 0,
+        behavior: "smooth",
+    });
 }
