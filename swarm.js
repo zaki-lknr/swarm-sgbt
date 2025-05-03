@@ -416,6 +416,7 @@ const load_data = () => {
             const checkin_datetime = document.createElement("div");
             const datetime = new Date(checkin.createdAt * 1000);
             checkin_datetime.textContent = '['+ (++index) + '] ' + datetime.toLocaleDateString() + ' ' + datetime.toLocaleTimeString();
+            checkin_datetime.id = 'checkin_' + index;
             if (datetime.toLocaleDateString() === today.toLocaleDateString()) {
                 today_count++;
 
