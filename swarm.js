@@ -976,4 +976,9 @@ const scroll_to_top = () => {
 
 const scroll_to_today = () => {
     console.log("scroll_to_today called");
+
+    const target = document.getElementById('checkin_21');
+    target.scrollIntoView({
+        behavior: 'smooth'
+    })
 }
