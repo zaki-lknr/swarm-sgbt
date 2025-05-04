@@ -555,7 +555,7 @@ const load_data = () => {
 
         if (configure.app.dev_mode) {
             const comment_view = document.getElementById("comment");
-            comment_view.innerHTML = 'todays checkin: <span onclick="scroll_to_today()"> ' + today_count + "</span> / 24hour: " + hour24;
+            comment_view.innerHTML = "todays checkin: <span onclick=\"scroll_to_today('" + 'checkin_' + today_count + "')\"> " + today_count + "</span> / 24hour: " + hour24;
 
             // 重複カウント表示処理
             for (let checkin of checkin_data.response.checkins.items) {
@@ -974,11 +974,12 @@ const scroll_to_top = () => {
     });
 }
 
-const scroll_to_today = () => {
-    console.log("scroll_to_today called");
-
-    const target = document.getElementById('checkin_21');
-    target.scrollIntoView({
-        behavior: 'smooth'
-    })
+const scroll_to_today = (item) => {
+    // console.log("scroll_to_today called: " + item);
+    if (item != 'checkin_0') {
+        const target = document.getElementById(item);
+        target.scrollIntoView({
+            behavior: 'smooth'
+        })
+    }
 }
