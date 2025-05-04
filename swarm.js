@@ -4,8 +4,6 @@
  * @see https://github.com/zaki-lknr/swarm-sgbt
  */
 
-import {JpzBskyClient} from "./bsky-client/bsky-client.js?0.6.2";
-
 const app_name = "Swarm SGBT";
 const app_version = '0.12.0';
 
@@ -13,6 +11,11 @@ const app_version = '0.12.0';
  * htmlロード時のイベントリスナ設定
  */
 document.addEventListener("DOMContentLoaded", () => {
+
+    // bskyライブラリのロード
+    const elm = document.createElement('script');
+    elm.src = "bsky-client/bsky-client.js?0.6.3";
+    document.body.appendChild(elm);
 
     // リスナー設定をこの外に記述するとやはり早すぎて無効なのでここ
     document.getElementById('btn_save').addEventListener('click', ()=> {
@@ -76,6 +79,18 @@ document.addEventListener("DOMContentLoaded", () => {
     close_notify();
     input_changed();
 });
+
+/**
+ * 全ファイルロード後のイベントリスナ設定
+ * 
+ * DOMContentLoadedで読み込んだbskyライブラリのコードは同じイベントリスナ内で処理できないため、別のイベント発火のタイミングで処理する。
+ * 対象の処理はタイトルヘッダへのバージョン表示
+ */
+window.addEventListener('load', () => {
+    // title version
+    document.getElementById('title').textContent = app_name + ' ver.' + app_version + ' / jpz-bsky:' + JpzBskyClient.getVersion();
+})
+
 
 /**
  * 
@@ -342,8 +357,6 @@ const get_image_url = (disp_width, count, photo) => {
  */
 const load_data = () => {
     // console.log("load_data begin");
-    // title version
-    document.getElementById('title').textContent = app_name + ' ver.' + app_version + ' / jpz-bsky:' + JpzBskyClient.getVersion();
 
     // oauth?
     if (window.location.search.length > 0) {
@@ -542,7 +555,7 @@ const load_data = () => {
 
         if (configure.app.dev_mode) {
             const comment_view = document.getElementById("comment");
-            comment_view.textContent = 'todays checkin: ' + today_count + " / 24hour: " + hour24;
+            comment_view.innerHTML = 'todays checkin: <span onclick="scroll_to_today()"> ' + today_count + "</span> / 24hour: " + hour24;
 
             // 重複カウント表示処理
             for (let checkin of checkin_data.response.checkins.items) {
@@ -959,4 +972,8 @@ const scroll_to_top = () => {
         top: 0,
         behavior: "smooth",
     });
+}
+
+const scroll_to_today = () => {
+    console.log("scroll_to_today called");
 }
