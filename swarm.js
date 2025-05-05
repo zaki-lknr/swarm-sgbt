@@ -5,7 +5,7 @@
  */
 
 const app_name = "Swarm SGBT";
-const app_version = '0.12.0';
+const app_version = '0.13.0';
 
 /**
  * htmlロード時のイベントリスナ設定
@@ -555,7 +555,7 @@ const load_data = () => {
 
         if (configure.app.dev_mode) {
             const comment_view = document.getElementById("comment");
-            comment_view.innerHTML = "todays checkin: <span onclick=\"scroll_to_today('" + 'checkin_' + today_count + "')\"> " + today_count + "</span> / 24hour: " + hour24;
+            comment_view.innerHTML = "todays checkin: <span onclick=\"scroll_to_item('" + 'checkin_' + today_count + "')\">" + today_count + "</span> / 24hour: <span onclick=\"scroll_to_item('" + 'checkin_' + hour24 + "')\">" + hour24 + "</span>";
 
             // 重複カウント表示処理
             for (let checkin of checkin_data.response.checkins.items) {
@@ -974,7 +974,7 @@ const scroll_to_top = () => {
     });
 }
 
-const scroll_to_today = (item) => {
+const scroll_to_item = (item) => {
     // console.log("scroll_to_today called: " + item);
     if (item != 'checkin_0') {
         const target = document.getElementById(item);
