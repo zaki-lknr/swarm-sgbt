@@ -555,7 +555,7 @@ const load_data = () => {
 
         if (configure.app.dev_mode) {
             const comment_view = document.getElementById("comment");
-            comment_view.innerHTML = "todays checkin: <span onclick=\"scroll_to_item('" + 'checkin_' + today_count + "')\">" + today_count + "</span> / 24hour: <span onclick=\"scroll_to_item('" + 'checkin_' + hour24 + "')\">" + hour24 + "</span>";
+            comment_view.innerHTML = "todays checkin: <span class=\"inner_link\" onclick=\"scroll_to_item('" + 'checkin_' + today_count + "')\">" + today_count + "</span> / 24hour: <span class=\"inner_link\" onclick=\"scroll_to_item('" + 'checkin_' + hour24 + "')\">" + hour24 + "</span>";
 
             // 重複カウント表示処理
             for (let checkin of checkin_data.response.checkins.items) {
