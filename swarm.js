@@ -750,9 +750,18 @@ const get_detail = async (checkin_id, configure) => {
                     let url;
                     const headers = new Headers();
                     if (! configure.app.api_ver) {
+                        // 既存api.foursquareエンドポイント
                         url = 'https://api.foursquare.com/v3/places/' + checkin.venue.id + '?fields=social_media';
                         headers.append('accept', 'application/json');
                         headers.append('Authorization', configure.swarm.api_key);
+                    }
+                    else {
+                        // 新Places API実装
+                        console.log('use place-api');
+                        url = 'https://places-api.foursquare.com/places/' + checkin.venue.id;
+                        headers.append('accept', 'application/json');
+                        headers.append('Authorization', 'Bearer' + configure.swarm.api_key);
+                        headers.append('X-Places-Api-Version', '2025-06-17');
                     }
                     try {
                         const res = await fetch(url, { headers: headers });
