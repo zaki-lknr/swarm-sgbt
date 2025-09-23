@@ -758,9 +758,9 @@ const get_detail = async (checkin_id, configure) => {
                     else {
                         // 新Places API実装
                         console.log('use place-api');
-                        url = 'https://places-api.foursquare.com/places/' + checkin.venue.id;
+                        url = 'https://corsproxy.io/?url=' + encodeURIComponent('https://places-api.foursquare.com/places/' + checkin.venue.id);
                         headers.append('accept', 'application/json');
-                        headers.append('Authorization', 'Bearer' + configure.swarm.api_key);
+                        headers.append('Authorization', 'Bearer ' + configure.swarm.oauth_token);
                         headers.append('X-Places-Api-Version', '2025-06-17');
                     }
                     try {
