@@ -747,10 +747,13 @@ const get_detail = async (checkin_id, configure) => {
                     if (configure.app.dev_mode) {
                         set_progress('(swarm) /v3/places ...');
                     }
-                    const url = 'https://api.foursquare.com/v3/places/' + checkin.venue.id + '?fields=social_media';
+                    let url;
                     const headers = new Headers();
-                    headers.append('accept', 'application/json');
-                    headers.append('Authorization', configure.swarm.api_key);
+                    if (! configure.app.api_ver) {
+                        url = 'https://api.foursquare.com/v3/places/' + checkin.venue.id + '?fields=social_media';
+                        headers.append('accept', 'application/json');
+                        headers.append('Authorization', configure.swarm.api_key);
+                    }
                     try {
                         const res = await fetch(url, { headers: headers });
                         if (res.status === 404) {
