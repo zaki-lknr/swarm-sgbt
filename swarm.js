@@ -5,7 +5,7 @@
  */
 
 const app_name = "Swarm SGBT";
-const app_version = '0.13.0';
+const app_version = '0.14.0';
 
 /**
  * htmlロード時のイベントリスナ設定
