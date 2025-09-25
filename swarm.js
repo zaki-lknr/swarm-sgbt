@@ -744,16 +744,16 @@ const get_detail = async (checkin_id, configure) => {
                 if (configure.swarm.api_key.length > 0) {
                     // 取得
                     console.log("get place info");
-                    if (configure.app.dev_mode) {
-                        set_progress('(swarm) /v3/places ...');
-                    }
+
                     let url;
+                    let endpt_str;
                     const headers = new Headers();
                     if (! configure.app.api_ver) {
                         // 既存api.foursquareエンドポイント
                         url = 'https://api.foursquare.com/v3/places/' + checkin.venue.id + '?fields=social_media';
                         headers.append('accept', 'application/json');
                         headers.append('Authorization', configure.swarm.api_key);
+                        endpt_str = 'api.foursquare.com/v3/places/'
                     }
                     else {
                         // 新Places API実装
@@ -762,7 +762,13 @@ const get_detail = async (checkin_id, configure) => {
                         headers.append('accept', 'application/json');
                         headers.append('Authorization', 'Bearer ' + configure.swarm.oauth_token);
                         headers.append('X-Places-Api-Version', '2025-06-17');
+                        endpt_str = 'places-api.foursquare.com/places/'
                     }
+
+                    if (configure.app.dev_mode) {
+                        set_progress('(swarm) ' + endpt_str + ' ...');
+                    }
+
                     try {
                         const res = await fetch(url, { headers: headers });
                         if (res.status === 404) {
