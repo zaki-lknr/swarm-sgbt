@@ -741,6 +741,7 @@ const get_detail = async (checkin_id, configure) => {
                 // console.log('already exist');
             }
             else if (!checkin.venue.private && !checkin.venue.closed) {
+                // TODO: oauth_tokenも必要
                 if (configure.swarm.api_key.length > 0) {
                     // 取得
                     console.log("get place info");
