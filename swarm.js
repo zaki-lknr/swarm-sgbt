@@ -5,7 +5,7 @@
  */
 
 const app_name = "Swarm SGBT";
-const app_version = '0.13.0';
+const app_version = '0.14.1';
 
 /**
  * htmlロード時のイベントリスナ設定
@@ -124,6 +124,7 @@ const save_configure = () => {
     const edit_tweet = document.getElementById("edit_tweet").checked;
     const load_count = Number(document.getElementById("load_count").value);
     const dev_mode = document.getElementById("dev_mode").checked;
+    const api_ver = document.getElementById("api_ver").checked;
 
     const styles = document.getElementsByName("window_style");
     let style_type;
@@ -146,6 +147,7 @@ const save_configure = () => {
             load_count: load_count,
             app_version: app_version,
             dev_mode: dev_mode,
+            api_ver: api_ver,
         },
         swarm: {
             oauth_token: input_token,
@@ -201,6 +203,7 @@ const load_configure = () => {
         document.getElementById("include_sns").checked = configure?.app?.include_sns;
         document.getElementById("edit_tweet").checked = configure?.app?.edit_tweet;
         document.getElementById("dev_mode").checked = configure?.app?.dev_mode;
+        document.getElementById("api_ver").checked = configure?.app?.api_ver;
     }
     else {
         // 初回は一度初期状態を保存する
@@ -636,7 +639,7 @@ const create_share = async (checkin) => {
     const include_account = document.getElementById('acc_include_' + checkin.id).checked;
     const post_bsky = document.getElementById('bsky_' + checkin.id).checked;
 
-    const detail = await get_detail(checkin.id, configure);
+    const detail = await get_detail(checkin.id, include_account, configure);
     document.getElementById(checkin.id).value = detail.checkinShortUrl;
     // console.log(checkin);
 
@@ -692,10 +695,11 @@ const create_share = async (checkin) => {
 /**
  * チェックイン詳細取得
  * @param {string} チェックインID
+ * @param {boolean} SNSアカウント取得有無フラグ
  * @param {object} 設定オブジェクト
  * @returns
  */
-const get_detail = async (checkin_id, configure) => {
+const get_detail = async (checkin_id, include_account, configure) => {
     const checkins = localStorage.getItem('rest_response');
     // console.log('checkins: ' + checkins);
     const checkin_data = JSON.parse(checkins);
@@ -704,7 +708,7 @@ const get_detail = async (checkin_id, configure) => {
     for (let checkin of checkin_data.response.checkins.items) {
         // console.log('saved checkin id: ' + checkin.id);
         if (checkin_id === checkin.id) {
-            // consolog.log('checkin id: ' + checkin_id);
+            // console.log('checkin id: ' + checkin_id);
             if ('checkinShortUrl' in checkin) {
                 console.log('shortcut url is exist');
             }
@@ -737,17 +741,40 @@ const get_detail = async (checkin_id, configure) => {
                 // 追加情報あり(または取得済み未設定)
                 // console.log('already exist');
             }
+            else if (!include_account) {
+                // SNSアカウント未出力設定は何もしない
+                // console.log('include_account: ' + include_account);
+            }
             else if (!checkin.venue.private && !checkin.venue.closed) {
-                if (configure.swarm.api_key.length > 0) {
-                    // 取得
+                if (configure.swarm.api_key.length > 0 && configure.swarm.oauth_token.length > 0) {
+                    // 認証済みの場合は取得
+                    //TODO そもそもこのガードが必要か？
                     console.log("get place info");
-                    if (configure.app.dev_mode) {
-                        set_progress('(swarm) /v3/places ...');
-                    }
-                    const url = 'https://api.foursquare.com/v3/places/' + checkin.venue.id + '?fields=social_media';
+
+                    let url;
+                    let endpt_str;
                     const headers = new Headers();
-                    headers.append('accept', 'application/json');
-                    headers.append('Authorization', configure.swarm.api_key);
+                    if (! configure.app.api_ver) {
+                        // 既存api.foursquareエンドポイント
+                        url = 'https://api.foursquare.com/v3/places/' + checkin.venue.id + '?fields=social_media';
+                        headers.append('accept', 'application/json');
+                        headers.append('Authorization', configure.swarm.api_key);
+                        endpt_str = 'api.foursquare.com/v3/places/'
+                    }
+                    else {
+                        // 新Places API実装
+                        console.log('use place-api');
+                        url = 'https://corsproxy.io/?url=' + encodeURIComponent('https://places-api.foursquare.com/places/' + checkin.venue.id);
+                        headers.append('accept', 'application/json');
+                        headers.append('Authorization', 'Bearer ' + configure.swarm.oauth_token);
+                        headers.append('X-Places-Api-Version', '2025-06-17');
+                        endpt_str = 'places-api.foursquare.com/places/'
+                    }
+
+                    if (configure.app.dev_mode) {
+                        set_progress('(swarm) ' + endpt_str + ' ...');
+                    }
+
                     try {
                         const res = await fetch(url, { headers: headers });
                         if (res.status === 404) {
