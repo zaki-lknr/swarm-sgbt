@@ -741,9 +741,9 @@ const get_detail = async (checkin_id, configure) => {
                 // console.log('already exist');
             }
             else if (!checkin.venue.private && !checkin.venue.closed) {
-                // TODO: oauth_tokenも必要
-                if (configure.swarm.api_key.length > 0) {
-                    // 取得
+                if (configure.swarm.api_key.length > 0 && configure.swarm.oauth_token.length > 0) {
+                    // 認証済みの場合は取得
+                    //TODO そもそもこのガードが必要か？
                     console.log("get place info");
 
                     let url;
