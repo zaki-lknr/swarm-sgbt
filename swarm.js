@@ -639,7 +639,7 @@ const create_share = async (checkin) => {
     const include_account = document.getElementById('acc_include_' + checkin.id).checked;
     const post_bsky = document.getElementById('bsky_' + checkin.id).checked;
 
-    const detail = await get_detail(checkin.id, configure);
+    const detail = await get_detail(checkin.id, include_account, configure);
     document.getElementById(checkin.id).value = detail.checkinShortUrl;
     // console.log(checkin);
 
@@ -695,10 +695,11 @@ const create_share = async (checkin) => {
 /**
  * チェックイン詳細取得
  * @param {string} チェックインID
+ * @param {boolean} SNSアカウント取得有無フラグ
  * @param {object} 設定オブジェクト
  * @returns
  */
-const get_detail = async (checkin_id, configure) => {
+const get_detail = async (checkin_id, include_account, configure) => {
     const checkins = localStorage.getItem('rest_response');
     // console.log('checkins: ' + checkins);
     const checkin_data = JSON.parse(checkins);
@@ -707,7 +708,7 @@ const get_detail = async (checkin_id, configure) => {
     for (let checkin of checkin_data.response.checkins.items) {
         // console.log('saved checkin id: ' + checkin.id);
         if (checkin_id === checkin.id) {
-            // consolog.log('checkin id: ' + checkin_id);
+            // console.log('checkin id: ' + checkin_id);
             if ('checkinShortUrl' in checkin) {
                 console.log('shortcut url is exist');
             }
@@ -739,6 +740,10 @@ const get_detail = async (checkin_id, configure) => {
             if ('venueInfo' in checkin) {
                 // 追加情報あり(または取得済み未設定)
                 // console.log('already exist');
+            }
+            else if (!include_account) {
+                // SNSアカウント未出力設定は何もしない
+                // console.log('include_account: ' + include_account);
             }
             else if (!checkin.venue.private && !checkin.venue.closed) {
                 if (configure.swarm.api_key.length > 0 && configure.swarm.oauth_token.length > 0) {
