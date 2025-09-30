@@ -5,7 +5,7 @@
  */
 
 const app_name = "Swarm SGBT";
-const app_version = '0.14.1';
+const app_version = '0.14.2';
 
 /**
  * htmlロード時のイベントリスナ設定
@@ -754,7 +754,7 @@ const get_detail = async (checkin_id, include_account, configure) => {
                     let url;
                     let endpt_str;
                     const headers = new Headers();
-                    if (! configure.app.api_ver) {
+                    if (configure.app.api_ver) {
                         // 既存api.foursquareエンドポイント
                         url = 'https://api.foursquare.com/v3/places/' + checkin.venue.id + '?fields=social_media';
                         headers.append('accept', 'application/json');
