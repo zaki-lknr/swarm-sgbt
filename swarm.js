@@ -5,7 +5,7 @@
  */
 
 const app_name = "Swarm SGBT";
-const app_version = '0.14.2';
+const app_version = '0.14.3a';
 
 /**
  * htmlロード時のイベントリスナ設定
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // bskyライブラリのロード
     const elm = document.createElement('script');
-    elm.src = "bsky-client/bsky-client.js?0.6.3";
+    elm.src = "bsky-client/bsky-client.js?0.6.4a";
     document.body.appendChild(elm);
 
     // リスナー設定をこの外に記述するとやはり早すぎて無効なのでここ
@@ -659,6 +659,7 @@ const create_share = async (checkin) => {
             bsky.enableCorsProxyAtOgp(true);
             bsky.enableCorsProxyAtGetImage(false);
             bsky.setClientVia(app_name);
+            bsky.setCorsProxyUrl('https://swarm.jp-z.jp/corsproxy/corsproxy.cgi?url=')
             if (configure.bsky.bsky_refresh) {
                 bsky.setRefreshJwt(configure.bsky.bsky_refresh);
             }
