@@ -7,6 +7,8 @@
 const app_name = "Swarm SGBT";
 const app_version = '0.14.3a';
 
+const corsproxy_url = 'https://swarm.jp-z.jp/corsproxy/corsproxy.cgi?url=';
+
 /**
  * htmlロード時のイベントリスナ設定
  */
@@ -314,7 +316,7 @@ const swarm_oauth2 = async (code) => {
     const redirect_url = location.href.replace(/\?.*/, '');
     const url = 'https://foursquare.com/oauth2/access_token?client_id=' + client_id + '&client_secret=' + client_secret +'&grant_type=authorization_code&redirect_uri=' + redirect_url + '&code=' + code;
     // console.log("access to: " + url);
-    const res = await fetch('https://corsproxy.io/?url=' + encodeURIComponent(url));
+    const res = await fetch(corsproxy_url + encodeURIComponent(url));
     if (!res.ok) {
         set_error('Failed: Foursquare OAuth2: ' + await res.text());
         return;
@@ -659,7 +661,7 @@ const create_share = async (checkin) => {
             bsky.enableCorsProxyAtOgp(true);
             bsky.enableCorsProxyAtGetImage(false);
             bsky.setClientVia(app_name);
-            bsky.setCorsProxyUrl('https://swarm.jp-z.jp/corsproxy/corsproxy.cgi?url=')
+            bsky.setCorsProxyUrl(corsproxy_url)
             if (configure.bsky.bsky_refresh) {
                 bsky.setRefreshJwt(configure.bsky.bsky_refresh);
             }
@@ -765,7 +767,7 @@ const get_detail = async (checkin_id, include_account, configure) => {
                     else {
                         // 新Places API実装
                         console.log('use place-api');
-                        url = 'https://corsproxy.io/?url=' + encodeURIComponent('https://places-api.foursquare.com/places/' + checkin.venue.id);
+                        url = corsproxy_url + encodeURIComponent('https://places-api.foursquare.com/places/' + checkin.venue.id);
                         headers.append('accept', 'application/json');
                         headers.append('Authorization', 'Bearer ' + configure.swarm.oauth_token);
                         headers.append('X-Places-Api-Version', '2025-06-17');
