@@ -5,7 +5,7 @@
  */
 
 const app_name = "Swarm SGBT";
-const app_version = '0.14.3a';
+const app_version = '0.14.3';
 
 const corsproxy_url = 'https://swarm.jp-z.jp/corsproxy/corsproxy.cgi?url=';
 
