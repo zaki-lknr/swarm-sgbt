@@ -1,3 +1,6 @@
 [submodule "bsky-client"]
 	path = bsky-client
 	url = https://github.com/zaki-lknr/bsky-client.git
+[submodule "corsproxy"]
+	path = corsproxy
+	url = https://github.com/zaki-lknr/corsproxy.git
